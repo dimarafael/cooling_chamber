@@ -16,6 +16,8 @@ qt_add_qml_module(appcooling_chamber
     URI cooling_chamber
     VERSION 1.0
     QML_FILES Main.qml
+    RESOURCES
+        img/logo.png
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
