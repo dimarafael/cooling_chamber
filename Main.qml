@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.VirtualKeyboard
 import Qt5Compat.GraphicalEffects
+import com.kometa.ProcessModel
 
 Window {
     id: window
@@ -75,62 +76,103 @@ Window {
             color: window.shadowColor
         }
 
-        ListModel{
-            id: mocModel
-            ListElement{
-                name: "Element 1"
-            }
-            ListElement{
-                name: "Element 2"
-            }
-            ListElement{
-                name: "Element 3"
-            }
-            ListElement{
-                name: "Element 4"
-            }
-            ListElement{
-                name: "Element 5"
-            }
-            ListElement{
-                name: "Element 6"
-            }
-            ListElement{
-                name: "Element 7"
-            }
-            ListElement{
-                name: "Element 8"
-            }
-            ListElement{
-                name: "Element 9"
-            }
-            ListElement{
-                name: "Element 10"
-            }
-            ListElement{
-                name: "Element 11"
-            }
-            ListElement{
-                name: "Element 12"
-            }
-        }
-
         Component{
             id: gridDelegate
             Item {
                 id: delegateItem
                 width: gridViev.cellWidth
                 height: gridViev.cellHeight
+
+                property real lineThick: delegateItem.height * 0.005
+
                 Rectangle{
+                    id: rect1
                     anchors.fill: parent
                     anchors.margins: window.defMargin / 2
                     radius: window.defMargin
-                    color: "blue"
-                    Text{
-                        text: name
-                        color: "white"
+                    color: "#7F7F7F"
+                    // Text{
+                    //     text: productName + " " + index + " stage=" + stage
+                    //     color: coolMode?"red":"white"
+                    // }
+                }
+
+                DropShadow {
+                    anchors.fill: rect1
+                    source: rect1
+                    horizontalOffset: window.defMargin / 3
+                    verticalOffset: window.defMargin / 3
+                    radius: 8.0
+                    samples: 17
+                    color: window.shadowColor
+                }
+
+                RadialGradient { // green
+                    visible: stage===2
+                    anchors.fill: rect1
+                    source: rect1
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "#61B94A" }
+                        GradientStop { position: 0.5; color: "#3E9149" }
                     }
                 }
+
+                RadialGradient { // blue
+                    id: gradientBlue
+                    property real gradShift: 0.0
+                    visible: stage===1
+                    anchors.fill: rect1
+                    source: rect1
+                    gradient: Gradient {
+                        // GradientStop { position: 0.0 + gradientBlue.gradShift; color: "#75B5FF" }
+                        GradientStop { position: 0; color: "#75B5FF" }
+                        GradientStop { position: 0.5; color: "#3E95F9" }
+                        // GradientStop { position: 0.5 + gradientBlue.gradShift; color: "#75B5FF" }
+                        // GradientStop { position: 0.75 + gradientBlue.gradShift; color: "#3E95F9" }
+                    }
+                }
+
+                // PropertyAnimation{
+                //     target: gradientBlue
+                //     property: "gradShift"
+                //     from: 0
+                //     to: 1
+                //     duration: 1000
+                //     loops: Animation.Infinite
+                //     running: true
+                // }
+
+                Item{
+                    id: itemTop
+                    anchors{
+                        top: rect1.top
+                        left: rect1.left
+                        right: rect1.right
+                    }
+                    height: (rect1.height / 5) * 4
+
+
+                }
+                Rectangle{
+                    id:lineHorisontalBig
+                    anchors.top: itemTop.bottom
+                    anchors.topMargin: -height/2
+                    anchors.horizontalCenter: rect1.horizontalCenter
+                    width: rect1.width * 0.95
+                    height: delegateItem.lineThick
+                    color: "white"
+                }
+                Item{
+                    id: itemBotton
+                    anchors{
+                        bottom: rect1.bottom
+                        left: rect1.left
+                        right: rect1.right
+                    }
+                    height: rect1.height / 5
+                }
+
+
             }
         }
 
@@ -141,8 +183,6 @@ Window {
                 left: parent.left
                 right: parent.right
                 bottom: parent.bottom
-                // topMargin: window.defMargin / 2
-                // leftMargin: window.defMargin / 2
                 margins: -( window.defMargin / 2)
                 topMargin: window.defMargin / 2
             }
@@ -150,7 +190,7 @@ Window {
             cellHeight: height / 3
             interactive: false
 
-            model: mocModel
+            model: ProcessModel
             delegate: gridDelegate
 
         }

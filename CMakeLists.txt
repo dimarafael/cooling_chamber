@@ -17,7 +17,9 @@ qt_add_qml_module(appcooling_chamber
     VERSION 1.0
     QML_FILES Main.qml
     RESOURCES
-        img/logo.png
+    img/logo.png
+    SOURCES processitem.h processitem.cpp
+    SOURCES processmodel.h processmodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
