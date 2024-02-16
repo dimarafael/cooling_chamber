@@ -17,7 +17,9 @@ qt_add_qml_module(appcooling_chamber
     VERSION 1.0
     QML_FILES Main.qml
     RESOURCES
-    img/logo.png
+        img/logo.png
+        img/mode_0.svg
+        img/mode_1.svg
     SOURCES processitem.h processitem.cpp
     SOURCES processmodel.h processmodel.cpp
 )

@@ -9,6 +9,18 @@ ProcessModel::ProcessModel(QObject *parent)
     m_processList[1].setState(1);
     m_processList[2].setState(2);
     m_processList[3].setCoolMode(true);
+    m_processList[0].setT4(-88.8);
+    m_processList[0].setT3(-77.7);
+    m_processList[0].setT2(-12.3);
+    m_processList[0].setT1(-45.6);
+    m_processList[0].setState(2);
+    m_processList[0].setSetpoint(-18.8);
+    m_processList[1].setSetpoint(-5);
+    m_processList[0].setProductName("Product name 1");
+    m_processList[0].setTarget(1);
+    m_processList[1].setTarget(2);
+    m_processList[2].setTarget(3);
+    m_processList[1].setCoolMode(true);
 }
 
 int ProcessModel::rowCount(const QModelIndex &parent) const

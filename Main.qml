@@ -3,6 +3,8 @@ import QtQuick.VirtualKeyboard
 import Qt5Compat.GraphicalEffects
 import com.kometa.ProcessModel
 
+import QtQuick.Controls
+
 Window {
     id: window
     width: 1280
@@ -12,6 +14,7 @@ Window {
 
     readonly property int defMargin: window.height * 0.02
     readonly property color shadowColor: "#88000000"
+    readonly property int fontSize1: Math.round(window.height / 30)
 
     LinearGradient{
         anchors.fill: parent
@@ -83,7 +86,7 @@ Window {
                 width: gridViev.cellWidth
                 height: gridViev.cellHeight
 
-                property real lineThick: delegateItem.height * 0.005
+                property real lineThick: Math.round(delegateItem.height * 0.005)
 
                 Rectangle{
                     id: rect1
@@ -151,6 +154,217 @@ Window {
                     }
                     height: (rect1.height / 5) * 4
 
+                    Item{
+                        id: itemT4
+                        anchors{
+                            top: itemTop.top
+                            left: itemTop.left
+                        }
+                        width: (rect1.width / 5) *2
+                        height: rect1.height / 5
+                        Text{
+                            anchors{
+                                verticalCenter: parent.verticalCenter
+                                right: parent.right
+                                rightMargin: Math.round(font.pixelSize/2)
+                            }
+                            font.pixelSize: window.fontSize1
+                            color: "white"
+                            text: temperature4.toFixed(1) + " ℃"
+                        }
+                    }
+                    Rectangle{
+                        id:lineHorisontalT4
+                        anchors.top: itemT4.bottom
+                        anchors.topMargin: -height/2
+                        anchors.horizontalCenter: itemT4.horizontalCenter
+                        width: itemT4.width * 0.89
+                        height: delegateItem.lineThick
+                        color: "white"
+                    }
+
+                    Item{
+                        id: itemT3
+                        anchors{
+                            top: itemT4.bottom
+                            left: itemTop.left
+                        }
+                        width: (rect1.width / 5) *2
+                        height: rect1.height / 5
+                        Text{
+                            anchors{
+                                verticalCenter: parent.verticalCenter
+                                right: parent.right
+                                rightMargin: Math.round(font.pixelSize/2)
+                            }
+                            font.pixelSize: window.fontSize1
+                            color: "white"
+                            text: temperature3.toFixed(1) + " ℃"
+                        }
+                    }
+
+                    Rectangle{
+                        id:lineHorisontalT3
+                        anchors.top: itemT3.bottom
+                        anchors.topMargin: -height/2
+                        anchors.horizontalCenter: itemT3.horizontalCenter
+                        width: itemT3.width * 0.89
+                        height: delegateItem.lineThick
+                        color: "white"
+                    }
+
+                    Item{
+                        id: itemT2
+                        anchors{
+                            top: itemT3.bottom
+                            left: itemTop.left
+                        }
+                        width: (rect1.width / 5) *2
+                        height: rect1.height / 5
+                        Text{
+                            anchors{
+                                verticalCenter: parent.verticalCenter
+                                right: parent.right
+                                rightMargin: Math.round(font.pixelSize/2)
+                            }
+                            font.pixelSize: window.fontSize1
+                            color: "white"
+                            text: temperature2.toFixed(1) + " ℃"
+                        }
+                    }
+                    Rectangle{
+                        id:lineHorisontalT2
+                        anchors.top: itemT2.bottom
+                        anchors.topMargin: -height/2
+                        anchors.horizontalCenter: itemT2.horizontalCenter
+                        width: itemT2.width * 0.89
+                        height: delegateItem.lineThick
+                        color: "white"
+                    }
+
+                    Item{
+                        id: itemT1
+                        anchors{
+                            top: itemT2.bottom
+                            left: itemTop.left
+                        }
+                        width: (rect1.width / 5) *2
+                        height: rect1.height / 5
+                        Text{
+                            anchors{
+                                verticalCenter: parent.verticalCenter
+                                right: parent.right
+                                rightMargin: Math.round(font.pixelSize/2)
+                            }
+                            font.pixelSize: window.fontSize1
+                            color: "white"
+                            text: temperature1.toFixed(1) + " ℃"
+                        }
+                    }
+
+                    Rectangle{
+                        id:lineVertical
+                        // anchors.top: itemTop.top
+                        anchors.left: itemT1.right
+                        anchors.leftMargin: -width/2
+                        anchors.verticalCenter: itemTop.verticalCenter
+                        height: itemTop.height * 0.92
+                        width: delegateItem.lineThick
+                        color: "white"
+                    }
+
+                    Item{
+                        id: itemRightTop
+                        anchors{
+                            top: itemTop.top
+                            right: itemTop.right
+                            left: itemT4.right
+                            bottom: itemT3.bottom
+                        }
+                        Text{
+                            anchors{
+                                verticalCenter: parent.verticalCenter
+                                left: parent.left
+                                leftMargin: window.fontSize1
+                            }
+                            font.pixelSize: window.fontSize1
+                            color: "white"
+                            text: qsTr("Place")
+                        }
+                        Item{
+                            id: itemPlaceNumber
+                            anchors{
+                                top: parent.top
+                                right: parent.right
+                                bottom: parent.bottom
+                            }
+                            width: height
+                            Text{
+                                anchors.centerIn: parent
+                                font.pixelSize: window.fontSize1 * 2
+                                color: "white"
+                                text: (index+1)
+                            }
+                        }
+                    }
+
+                    Rectangle{
+                        id:lineHorisontalRight
+                        anchors.top: itemRightTop.bottom
+                        anchors.topMargin: -height/2
+                        anchors.horizontalCenter: itemRightTop.horizontalCenter
+                        width: itemRightTop.width * 0.93
+                        height: delegateItem.lineThick
+                        color: "white"
+                    }
+
+                    Item {
+                        id: itemRightBottom
+                        visible: stage > 0
+                        anchors{
+                            right: itemTop.right
+                            bottom: itemTop.bottom
+                            top: itemT2.top
+                            left: itemT2.right
+                        }
+                        Text{
+                            anchors{
+                                verticalCenter: parent.verticalCenter
+                                left: parent.left
+                                leftMargin: Math.round(window.fontSize1/2)
+                            }
+                            font.pixelSize: window.fontSize1
+                            color: "white"
+                            text: setpoint.toFixed(1)  + "℃"
+                        }
+                        Item{
+                            id: itemModeIcon
+                            anchors{
+                                top: parent.top
+                                right: parent.right
+                                bottom: parent.bottom
+                            }
+                            width: height
+                            // Text{
+                            //     anchors.centerIn: parent
+                            //     font.pixelSize: window.fontSize1 * 2
+                            //     color: "white"
+                            //     text: (index+1)
+                            // }
+                            Image {
+                                id: imgModeIcon
+                                anchors.fill: parent
+                                anchors.margins: height * 0.2
+                                anchors.rightMargin: 0
+                                fillMode: Image.PreserveAspectFit
+                                source: coolMode?"img/mode_1.svg":"img/mode_0.svg"
+                                // sourceSize.height: height
+                                // sourceSize.width: width
+                                // smooth: false
+                            }
+                        }
+
+                    }
 
                 }
                 Rectangle{
@@ -164,14 +378,62 @@ Window {
                 }
                 Item{
                     id: itemBotton
+                    visible: stage > 0
                     anchors{
                         bottom: rect1.bottom
                         left: rect1.left
                         right: rect1.right
                     }
                     height: rect1.height / 5
-                }
+                    // Text{
+                    //     anchors{
+                    //         top: parent.top
+                    //         bottom: parent.bottom
+                    //         left: parent.left
+                    //         leftMargin: Math.round(window.fontSize1 / 4)
+                    //     }
+                    //     font.pixelSize: window.fontSize1
+                    //     color: "white"
+                    //     text: productName
+                    // }
 
+                    Item{
+                        id: itemBottomRight
+                        anchors{
+                            right: parent.right
+                            top: parent.top
+                            bottom:parent.bottom
+                        }
+                        width: height * 2
+                        Text {
+                            anchors.fill: parent
+                            font.pixelSize: window.fontSize1
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            // font.bold: true
+                            color: "white"
+                            text: String.fromCodePoint(0x21D2)+ " " + target
+                        }
+                    }
+                    Item{
+                        id: itemBottomLeft
+                        anchors{
+                            right: itemBottomRight.left
+                            left: parent.left
+                            top: parent.top
+                            bottom:parent.bottom
+                        }
+                        Text{
+                            anchors.fill: parent
+                            font.pixelSize: window.fontSize1
+                            horizontalAlignment: Text.AlignRight
+                            verticalAlignment: Text.AlignVCenter
+                            color: "white"
+                            text: productName
+                        }
+                    }
+
+                }
 
             }
         }
@@ -189,6 +451,7 @@ Window {
             cellWidth: width / 4
             cellHeight: height / 3
             interactive: false
+            verticalLayoutDirection: GridView.BottomToTop
 
             model: ProcessModel
             delegate: gridDelegate
