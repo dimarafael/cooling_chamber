@@ -62,12 +62,139 @@ Window {
                     top: parent.top
                     bottom: parent.bottom
                     left: parent.left
+                    right: lineVerticalMachine1.left
                     margins: window.defMargin
                 }
                 fillMode: Image.PreserveAspectFit
 
                 source: "img/logo.png"
             }
+
+
+
+
+            Rectangle{
+                id:lineVerticalMachine1
+                anchors{
+                    verticalCenter: parent.verticalCenter
+                    right: targetMachine1.left
+                }
+                height: parent.height * 0.85
+                width: Math.round(height * 0.01)
+                color: "white"
+            }
+
+            TargetMachine{
+                id: targetMachine1
+                anchors{
+                    top: parent.top
+                    bottom: parent.bottom
+                    right: lineVerticalMachine2.left
+                }
+                width: topMenu.width / 4.5
+                fontSize: window.fontSize1
+                productQty: "3"
+                machineNumber: "1"
+            }
+
+
+
+
+
+            Rectangle{
+                id:lineVerticalMachine2
+                anchors{
+                    verticalCenter: parent.verticalCenter
+                    right: targetMachine2.left
+                }
+                height: parent.height * 0.85
+                width: Math.round(height * 0.01)
+                color: "white"
+            }
+
+            TargetMachine{
+                id: targetMachine2
+                anchors{
+                    top: parent.top
+                    bottom: parent.bottom
+                    right: lineVerticalMachine3.left
+                }
+                width: topMenu.width / 4.5
+                fontSize: window.fontSize1
+                productQty: "11"
+                machineNumber: "2"
+            }
+
+            Rectangle{
+                id:lineVerticalMachine3
+                anchors{
+                    verticalCenter: parent.verticalCenter
+                    right: targetMachine3.left
+                }
+                height: parent.height * 0.85
+                width: Math.round(height * 0.01)
+                color: "white"
+            }
+
+            TargetMachine{
+                id: targetMachine3
+                anchors{
+                    top: parent.top
+                    bottom: parent.bottom
+                    right: lineVerticalGear.left
+                }
+                width: topMenu.width / 4.5
+                fontSize: window.fontSize1
+                productQty: "14"
+                machineNumber: "3"
+            }
+
+            Rectangle{
+                id:lineVerticalGear
+                anchors{
+                    verticalCenter: parent.verticalCenter
+                    right: itemGear.left
+                }
+                height: parent.height * 0.85
+                width: Math.round(height * 0.01)
+                color: "white"
+            }
+
+            Item{
+                id: itemGear
+                anchors{
+                    top: parent.top
+                    bottom: parent.bottom
+                    right: parent.right
+                }
+                width: height * 1.5
+
+                Rectangle{ //background if clicked
+                    anchors.fill: parent
+                    radius: window.defMargin
+                    color: "#33ffffff"
+                    visible: mouseAreaGear.pressed
+                }
+
+                MouseArea{
+                    id: mouseAreaGear
+                    anchors.fill: parent
+                    onClicked: {
+                        focus: true
+                    }
+                }
+
+                Image {
+                    id: imgGear
+                    anchors{
+                        centerIn: parent
+                        margins: window.defMargin
+                    }
+                    fillMode: Image.PreserveAspectFit
+                    source: "img/gear.svg"
+                }
+            }
+
         }
         DropShadow {
             anchors.fill: topMenu
