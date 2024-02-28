@@ -21,6 +21,8 @@ ProcessModel::ProcessModel(QObject *parent)
     m_processList[1].setTarget(2);
     m_processList[2].setTarget(3);
     m_processList[1].setCoolMode(true);
+    m_processList[2].setOffline(true);
+    m_processList[11].setDischarged(true);
 }
 
 int ProcessModel::rowCount(const QModelIndex &parent) const

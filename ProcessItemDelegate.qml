@@ -9,6 +9,14 @@ Item {
     property color shadowColor: "#88000000"
     property int fontSize: 30
 
+    MouseArea{
+        anchors.fill: parent
+        onClicked: {
+            focus: true
+            console.log("Delegate clicked " + (index+1).toString())
+        }
+    }
+
     Rectangle{
         id: rect1
         anchors.fill: parent
@@ -333,6 +341,64 @@ Item {
             }
         }
 
+    }
+
+    Rectangle{
+        id: rectOffline
+        anchors.fill: parent
+        anchors.margins: root.defMargin / 2
+        radius: root.defMargin
+        visible: offline
+        color: "#AAFF0000"
+        Image {
+            id: imgOffline
+            anchors.fill: parent
+            anchors.margins: parent.height * 0.2
+            fillMode: Image.PreserveAspectFit
+            source: "img/offline.svg"
+            sourceSize.height: height
+        }
+
+    }
+
+    Image {
+        id: imgBattery
+        source: "img/battery"
+        anchors.fill: parent
+        anchors.margins: parent.height * 0.3
+        fillMode: Image.PreserveAspectFit
+        sourceSize.height: height
+        opacity: 0
+
+        SequentialAnimation{
+            running: discharged
+            loops: Animation.Infinite
+            alwaysRunToEnd: true
+            OpacityAnimator{
+                target: imgBattery
+                from: 0
+                to: 1
+                duration: 500
+            }
+            OpacityAnimator{
+                target: imgBattery
+                from: 1
+                to: 1
+                duration: 1000
+            }
+            OpacityAnimator{
+                target: imgBattery
+                from: 1
+                to: 0
+                duration: 500
+            }
+            OpacityAnimator{
+                target: imgBattery
+                from: 0
+                to: 0
+                duration: 3000
+            }
+        }
     }
 
 }

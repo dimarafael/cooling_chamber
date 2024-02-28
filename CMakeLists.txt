@@ -22,6 +22,8 @@ qt_add_qml_module(appcooling_chamber
         img/mode_1.svg
         img/gear.svg
         img/machine.svg
+        img/offline.svg
+        img/battery.svg
     SOURCES processitem.h processitem.cpp
     SOURCES processmodel.h processmodel.cpp
     QML_FILES TargetMachine.qml
