@@ -4,6 +4,7 @@
 #include <QAbstractListModel>
 #include <QObject>
 #include "processitem.h"
+#include "probedata.h"
 
 class ProcessModel : public QAbstractListModel
 {
@@ -28,6 +29,9 @@ public:
     virtual int rowCount(const QModelIndex &parent) const override;
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
+
+public slots:
+    void dataReady(QVector<ProbeData> data);
 
 private:
     QList<ProcessItem> m_processList;

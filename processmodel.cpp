@@ -80,3 +80,18 @@ QHash<int, QByteArray> ProcessModel::roleNames() const
     names[OfflineRole] = "offline";
     return names;
 }
+
+void ProcessModel::dataReady(QVector<ProbeData> data)
+{
+    qInfo() << "Process model data ready";
+    beginResetModel();
+    for(int i = 0; i < 12; i++){
+        m_processList[i].setT1(data[i].t1());
+        m_processList[i].setT2(data[i].t2());
+        m_processList[i].setT3(data[i].t3());
+        m_processList[i].setT4(data[i].t4());
+        m_processList[i].setOffline(!data[i].online());
+        m_processList[i].setDischarged(false);// !!!!!!!!!! Write logic for discharged
+    }
+    endResetModel();
+}
