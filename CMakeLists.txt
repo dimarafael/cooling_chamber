@@ -4,7 +4,7 @@ project(cooling_chamber VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick Test)
 
 qt_standard_project_setup()
 
@@ -62,3 +62,6 @@ install(TARGETS appcooling_chamber
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+
+add_subdirectory(tests)
