@@ -12,6 +12,18 @@ qt_add_executable(appcooling_chamber
     main.cpp
 )
 
+add_library(libCoolingChamber
+    STATIC
+    processitem.h processitem.cpp
+    processmodel.h processmodel.cpp
+    probedata.h probedata.cpp
+    readprobes.h readprobes.cpp
+    productsmodel.h productsmodel.cpp
+    product.h product.cpp
+)
+
+target_link_libraries(libCoolingChamber Qt6::Core)
+
 qt_add_qml_module(appcooling_chamber
     URI cooling_chamber
     VERSION 1.0
@@ -24,12 +36,8 @@ qt_add_qml_module(appcooling_chamber
         img/machine.svg
         img/offline.svg
         img/battery.svg
-    SOURCES processitem.h processitem.cpp
-    SOURCES processmodel.h processmodel.cpp
     QML_FILES TargetMachine.qml
     QML_FILES ProcessItemDelegate.qml
-    SOURCES probedata.h probedata.cpp
-    SOURCES readprobes.h readprobes.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -44,6 +52,7 @@ set_target_properties(appcooling_chamber PROPERTIES
 )
 
 target_link_libraries(appcooling_chamber
+    PRIVATE libCoolingChamber
     PRIVATE Qt6::Quick
 )
 

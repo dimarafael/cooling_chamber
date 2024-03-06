@@ -8,6 +8,10 @@ int main(int argc, char *argv[])
 {
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
 
+    QCoreApplication::setOrganizationName("Kometa");
+    QCoreApplication::setOrganizationDomain("kometa.hu");
+    QCoreApplication::setApplicationName("Cooling Chamber");
+
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
