@@ -12,7 +12,7 @@ qt_add_executable(appcooling_chamber
     main.cpp
 )
 
-add_library(libCoolingChamber
+add_library(CoolingChamberLibrary
     STATIC
     processitem.h processitem.cpp
     processmodel.h processmodel.cpp
@@ -22,7 +22,7 @@ add_library(libCoolingChamber
     product.h product.cpp
 )
 
-target_link_libraries(libCoolingChamber Qt6::Core)
+target_link_libraries(CoolingChamberLibrary Qt6::Core)
 
 qt_add_qml_module(appcooling_chamber
     URI cooling_chamber
@@ -52,7 +52,7 @@ set_target_properties(appcooling_chamber PROPERTIES
 )
 
 target_link_libraries(appcooling_chamber
-    PRIVATE libCoolingChamber
+    PRIVATE CoolingChamberLibrary
     PRIVATE Qt6::Quick
 )
 

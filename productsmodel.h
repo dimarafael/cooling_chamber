@@ -23,6 +23,10 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
 
+    Q_INVOKABLE void append(QString name, float setpoint, bool mode);
+    Q_INVOKABLE void remove(int row);
+    Q_INVOKABLE void set(int row, QString name, float setpoint, bool mode);
+
 private:
     QList<Product> m_productList;
 };
