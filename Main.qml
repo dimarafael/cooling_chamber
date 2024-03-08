@@ -15,6 +15,7 @@ Window {
     readonly property int defMargin: window.height * 0.02
     readonly property color shadowColor: "#88000000"
     readonly property int fontSize1: Math.round(window.height / 30)
+    property bool showSettings: false
 
     LinearGradient{
         anchors.fill: parent
@@ -174,6 +175,7 @@ Window {
                     anchors.fill: parent
                     onClicked: {
                         focus: true
+                        window.showSettings = !window.showSettings
                     }
                 }
 
@@ -215,7 +217,6 @@ Window {
             verticalLayoutDirection: GridView.BottomToTop
 
             model: ProcessModel
-            // delegate: gridDelegate
             delegate: ProcessItemDelegate{
                 width: gridViev.cellWidth
                 height: gridViev.cellHeight
@@ -227,8 +228,24 @@ Window {
         }
 
 
+        SettingsPanel {
+            id: itemSettings
+            width: parent.width
+            height: parent.height - topMenu.height
+            x: 0
+            y: window.showSettings ? topMenu.height + window.defMargin : window.height
+            defMargin: window.defMargin
 
-    }
+            Behavior on y{
+                NumberAnimation{
+                    duration: 150
+                    easing.type: Easing.InOutQuad
+                }
+            }
+
+        }
+
+    } // Item root content
 
 
     // InputPanel {
