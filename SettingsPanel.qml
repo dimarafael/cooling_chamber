@@ -2,8 +2,8 @@ import QtQuick
 import QtQuick.VirtualKeyboard
 import Qt5Compat.GraphicalEffects
 import com.kometa.ProcessModel
-
 import QtQuick.Controls
+import com.kometa.ProductsModel
 
 Item{
     id: root
@@ -17,6 +17,17 @@ Item{
             root.focus = true
         }
         txtFldPass.text = ""
+    }
+
+    MouseArea{ // Hidden area for close application
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        width: 40
+        height: 40
+
+        onClicked: {
+            Qt.callLater(Qt.quit)
+        }
     }
 
     DropShadow {
@@ -36,17 +47,58 @@ Item{
         radius: root.defMargin
     }
 
-    Item{
+    Item{ // show content
+        id: itemRootContent
+        visible: root.unlocked
+        anchors.fill: parent
+
+        Text{
+            id: textLabelRootContent
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: parent.height / 100
+            text: "Edit products recipes"
+            color: "#416f4c"
+            font.pixelSize: root.fontSize * 2
+        }
+
+        ListView{
+            id: listProducts
+            anchors.top: textLabelRootContent.bottom
+            anchors.topMargin: parent.height / 100
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width * 0.9
+            height: parent.height * 0.7
+            clip: true
+            ScrollBar.vertical: ScrollBar { }
+
+            model: ProductsModel
+
+            delegate: Item {
+                id: delegate
+                height: root.fontSize * 1.4
+                width: listProducts.width
+                required property string productName
+                required property real setpoint
+                required property bool coolMode
+                Rectangle{
+                    anchors.fill: parent
+                    color: "blue"
+                    Text {
+                        text: delegate.productName
+                    }
+                }
+            }
+        }
+
+    }
+
+
+
+    Item{ // show password field
         id: itemPass
         visible: !root.unlocked
         anchors.fill: parent
-        // Button{
-        //     width: 50
-        //     height: 50
-        //     onClicked: {
-        //         Qt.callLater(Qt.quit)
-        //     }
-        // }
 
         Text{
             id: textLabelPass

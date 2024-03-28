@@ -3,6 +3,7 @@
 #include <QThread>
 #include "processmodel.h"
 #include "readprobes.h"
+#include "productsmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +20,8 @@ int main(int argc, char *argv[])
     ProcessModel *processModel = new ProcessModel(&app);
     qmlRegisterSingletonInstance("com.kometa.ProcessModel", 1, 1, "ProcessModel", processModel);
 
+    ProductsModel *productsModel = new ProductsModel(&app);
+    qmlRegisterSingletonInstance("com.kometa.ProductsModel", 1, 1, "ProductsModel", productsModel);
 
     ReadProbes *readProbes = new ReadProbes();
     QThread *threadReadingProbes = new QThread();

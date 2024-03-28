@@ -178,7 +178,7 @@ Window {
                     onClicked: {
                         focus: true
                         window.showSettings = !window.showSettings
-                        if(window.showSettings === true) itemSettings.unlocked = false
+                        itemSettings.unlocked = true //false
                     }
                 }
 

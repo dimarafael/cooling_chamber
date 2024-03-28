@@ -2,10 +2,18 @@
 
 ProductsModel::ProductsModel(QObject *parent)
     : QAbstractListModel{parent}
-{}
+{
+    for(int i=0; i<25; i++){
+        Product prd;
+        prd.setName("Product" + QString::number(i));
+        prd.setSetpoint(-1.7 + i);
+        m_productList.append(prd);
+    }
+}
 
 int ProductsModel::rowCount(const QModelIndex &parent) const
 {
+    qDebug() << "Product count" << m_productList.count();
     return m_productList.count();
 }
 
