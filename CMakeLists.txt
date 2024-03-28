@@ -36,6 +36,8 @@ qt_add_qml_module(appcooling_chamber
         img/machine.svg
         img/offline.svg
         img/battery.svg
+        img/trash.svg
+        img/edit.svg
     QML_FILES TargetMachine.qml
     QML_FILES ProcessItemDelegate.qml
     QML_FILES SettingsPanel.qml

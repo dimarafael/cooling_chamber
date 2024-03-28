@@ -10,6 +10,7 @@ Item{
     property int defMargin: 5
     property bool unlocked: false
     property int fontSize: 30
+    property color textColor: "black" //"#bb000000"
 
     function checkPassword(){
         if(txtFldPass.text === "123"){
@@ -41,6 +42,7 @@ Item{
     }
 
     Rectangle{
+        id: bgRectangle
         width: parent.width
         height: parent.height + root.defMargin
         color: "lightgray"
@@ -68,7 +70,7 @@ Item{
             anchors.topMargin: parent.height / 100
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width * 0.9
-            height: parent.height * 0.7
+            height: parent.height * 0.65
             clip: true
             ScrollBar.vertical: ScrollBar { }
 
@@ -76,17 +78,133 @@ Item{
 
             delegate: Item {
                 id: delegate
-                height: root.fontSize * 1.4
+                height: listProducts.height / 5
                 width: listProducts.width
                 required property string productName
                 required property real setpoint
                 required property bool coolMode
+                required property int index
+                // Rectangle{
+                //     anchors.fill: parent
+                //     color: "blue"
+                //     Text {
+                //         text: delegate.productName + " - " + delegate.index
+                //     }
+                // }
                 Rectangle{
                     anchors.fill: parent
-                    color: "blue"
+                    border.color: "grey"
+                    border.width: 1
+                    color: bgRectangle.color
                     Text {
+                        id: txtProductName
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: parent.height / 4
+                        font.pixelSize: root.fontSize
+                        color: root.textColor
                         text: delegate.productName
                     }
+
+                    Item{
+                        id: itemModeIcon
+                        anchors{
+                            top: parent.top
+                            right: itemEdit.left
+                            bottom: parent.bottom
+                        }
+                        width: height * 2
+
+                        Image {
+                            id: imgModeIcon
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            fillMode: Image.PreserveAspectFit
+                            source: delegate.coolMode?"img/mode_1.svg":"img/mode_0.svg"
+                            sourceSize.height: height
+                            smooth: false
+                        }
+                        ColorOverlay{
+                            anchors.fill: imgModeIcon
+                            source:imgModeIcon
+                            color:"black"
+                            antialiasing: true
+                        }
+                    }
+
+                    Item{
+                        id: itemEdit
+                        anchors{
+                            top: parent.top
+                            bottom: parent.bottom
+                            right: itemDelete.left
+                        }
+                        width: height * 1.5
+
+                        Rectangle{ //background if clicked
+                            anchors.fill: parent
+                            color: "#33ffffff"
+                            visible: mouseAreaEdit.pressed
+                        }
+
+                        MouseArea{
+                            id: mouseAreaEdit
+                            anchors.fill: parent
+                            onClicked: {
+                                focus: true
+                                console.log("Edit " + delegate.index)
+                            }
+                        }
+
+                        Image {
+                            id: imgEdit
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.margins: parent.height / 7
+                            fillMode: Image.PreserveAspectFit
+                            sourceSize.height: height
+                            source: "img/edit.svg"
+                        }
+                    }
+
+                    Item{
+                        id: itemDelete
+                        anchors{
+                            top: parent.top
+                            bottom: parent.bottom
+                            right: parent.right
+                        }
+                        width: height * 1.5
+
+                        Rectangle{ //background if clicked
+                            anchors.fill: parent
+                            color: "#33ffffff"
+                            visible: mouseAreaDelete.pressed
+                        }
+
+                        MouseArea{
+                            id: mouseAreaDelete
+                            anchors.fill: parent
+                            onClicked: {
+                                focus: true
+                                console.log("Delete " + delegate.index)
+                            }
+                        }
+
+                        Image {
+                            id: imgDelete
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.margins: parent.height / 8
+                            fillMode: Image.PreserveAspectFit
+                            sourceSize.height: height
+                            source: "img/trash.svg"
+                        }
+                    }
+
                 }
             }
         }
