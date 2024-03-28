@@ -10,6 +10,8 @@ Window {
     width: 1280
     height: 800
     visible: true
+    // visibility: window.FullScreen
+    // flags: Qt.FramelessWindowHint | Qt.Dialog | Qt.WindowStaysOnTopHint
     title: qsTr("Cooling Chamber")
 
     readonly property int defMargin: window.height * 0.02
@@ -176,6 +178,7 @@ Window {
                     onClicked: {
                         focus: true
                         window.showSettings = !window.showSettings
+                        if(window.showSettings === true) itemSettings.unlocked = false
                     }
                 }
 
@@ -248,32 +251,32 @@ Window {
     } // Item root content
 
 
-    // InputPanel {
-    //     id: inputPanel
-    //     z: 99
-    //     x: 0
-    //     y: window.height
-    //     width: window.width
+    InputPanel {
+        id: inputPanel
+        z: 99
+        x: 0
+        y: window.height
+        width: window.width
 
-    //     states: State {
-    //         name: "visible"
-    //         when: inputPanel.active
-    //         PropertyChanges {
-    //             target: inputPanel
-    //             y: window.height - inputPanel.height
-    //         }
-    //     }
-    //     transitions: Transition {
-    //         from: ""
-    //         to: "visible"
-    //         reversible: true
-    //         ParallelAnimation {
-    //             NumberAnimation {
-    //                 properties: "y"
-    //                 duration: 250
-    //                 easing.type: Easing.InOutQuad
-    //             }
-    //         }
-    //     }
-    // }
+        states: State {
+            name: "visible"
+            when: inputPanel.active
+            PropertyChanges {
+                target: inputPanel
+                y: window.height - inputPanel.height
+            }
+        }
+        transitions: Transition {
+            from: ""
+            to: "visible"
+            reversible: true
+            ParallelAnimation {
+                NumberAnimation {
+                    properties: "y"
+                    duration: 250
+                    easing.type: Easing.InOutQuad
+                }
+            }
+        }
+    }
 }
