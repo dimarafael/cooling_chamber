@@ -95,7 +95,7 @@ Item {
                 }
                 font.pixelSize: root.fontSize
                 color: "white"
-                text: temperature4.toFixed(1) + " ℃"
+                text: temperature4.toFixed(1) + "℃"
             }
         }
         Rectangle{
@@ -124,7 +124,7 @@ Item {
                 }
                 font.pixelSize: root.fontSize
                 color: "white"
-                text: temperature3.toFixed(1) + " ℃"
+                text: temperature3.toFixed(1) + "℃"
             }
         }
 
@@ -154,7 +154,7 @@ Item {
                 }
                 font.pixelSize: root.fontSize
                 color: "white"
-                text: temperature2.toFixed(1) + " ℃"
+                text: temperature2.toFixed(1) + "℃"
             }
         }
         Rectangle{
@@ -183,7 +183,7 @@ Item {
                 }
                 font.pixelSize: root.fontSize
                 color: "white"
-                text: temperature1.toFixed(1) + " ℃"
+                text: temperature1.toFixed(1) + "℃"
             }
         }
 
