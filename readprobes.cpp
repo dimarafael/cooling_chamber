@@ -152,10 +152,10 @@ void ReadProbes::processTemperatures()
     if(!reply->error()){
         ProbeData tmp_probeData;
         tmp_probeData.setOnline(true);
-        tmp_probeData.setT1((float)(reply->result().values()[2])/10);
-        tmp_probeData.setT2((float)(reply->result().values()[4])/10);
-        tmp_probeData.setT3((float)(reply->result().values()[1])/10);
-        tmp_probeData.setT4((float)(reply->result().values()[0])/10);
+        tmp_probeData.setT1(quit16ToFloat(reply->result().values()[2])/10);
+        tmp_probeData.setT2(quit16ToFloat(reply->result().values()[4])/10);
+        tmp_probeData.setT3(quit16ToFloat(reply->result().values()[1])/10);
+        tmp_probeData.setT4(quit16ToFloat(reply->result().values()[0])/10);
         tmp_probeData.setBattery(reply->result().values()[6]);
         m_probes->replace(m_currentDevice, tmp_probeData);
         incrementCurrentDevice(true);
@@ -179,4 +179,17 @@ void ReadProbes::incrementCurrentDevice(bool isOnline)
         m_currentDevice = 0;
         emit dataReady(*m_probes);
     }
+}
+
+float ReadProbes::quit16ToFloat(quint16 data)
+{
+    int intData;
+    if((data & (1 << 15)) == 0){ // positive
+        intData = data;
+    } else{ // negative
+        quint16 tmp = ~data;
+        intData = -1 * static_cast<int>(tmp);
+    }
+
+    return static_cast<float>(intData);
 }

@@ -42,6 +42,7 @@ private:
     int m_currentDevice; // for polling devices in loop
 
     void incrementCurrentDevice(bool isOnline); // if not online, set this device as offline
+    float quit16ToFloat(quint16);
 };
 
 #endif // READPROBES_H
