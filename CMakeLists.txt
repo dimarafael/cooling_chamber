@@ -4,7 +4,7 @@ project(cooling_chamber VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick Test)
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick SerialBus Test)
 
 qt_standard_project_setup()
 
@@ -22,7 +22,10 @@ add_library(CoolingChamberLibrary
     product.h product.cpp
 )
 
-target_link_libraries(CoolingChamberLibrary Qt6::Core)
+target_link_libraries(CoolingChamberLibrary
+    Qt6::Core
+    Qt6::SerialBus
+)
 
 qt_add_qml_module(appcooling_chamber
     URI cooling_chamber
@@ -57,6 +60,7 @@ set_target_properties(appcooling_chamber PROPERTIES
 target_link_libraries(appcooling_chamber
     PRIVATE CoolingChamberLibrary
     PRIVATE Qt6::Quick
+    PRIVATE Qt6::SerialBus
 )
 
 include(GNUInstallDirs)
