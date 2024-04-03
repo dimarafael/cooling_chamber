@@ -11,6 +11,8 @@ Item{
     property bool unlocked: false
     property int fontSize: 30
     property color textColor: "black" //"#bb000000"
+    property int indexForDeleteEdit: 0
+    property string nameForDelete: ""
 
     function checkPassword(){
         if(txtFldPass.text === "123"){
@@ -190,6 +192,9 @@ Item{
                             onClicked: {
                                 focus: true
                                 console.log("Delete " + delegate.index)
+                                root.indexForDeleteEdit = delegate.index
+                                root.nameForDelete = delegate.productName
+                                popUpDelete.visible = true
                             }
                         }
 
@@ -211,6 +216,118 @@ Item{
 
     }
 
+    Rectangle{
+        id:popUpBG
+        x: 0
+        y: 0
+        width: root.width
+        height: root.height + root.defMargin
+        radius: root.defMargin
+        color: "gray"
+        opacity: 0.7
+        visible: popUpDelete.visible
+        MouseArea{
+            anchors.fill: parent
+            onClicked: focus=true
+        }
+    }
+
+    DropShadow {
+        anchors.fill: popUpDelete
+        source: popUpDelete
+        horizontalOffset: root.defMargin / 3
+        verticalOffset: root.defMargin / 3
+        radius: 8.0
+        samples: 17
+        color: "#88000000"
+        visible: popUpDelete.visible
+    }
+    Rectangle{
+        id: popUpDelete
+        width: parent.width / 2
+        height: parent.height / 2
+        radius: root.defMargin
+        color: "white"
+        anchors.centerIn: parent
+        visible: false
+        Text{
+            id: txtPopUpDeleteLine1
+            width: parent.width
+            height: parent.height / 4
+            anchors.top: parent.top
+            verticalAlignment: Text.AlignBottom
+            horizontalAlignment: Text.AlignHCenter
+            color: "#416f4c"
+            font.pixelSize: root.fontSize * 2
+            text: "Delete?"
+        }
+        Text{
+            id: txtPopUpDeleteLine2
+            width: parent.width
+            height: parent.height / 4
+            anchors.top: txtPopUpDeleteLine1.bottom
+            verticalAlignment: Text.AlignTop
+            horizontalAlignment: Text.AlignHCenter
+            color: "#416f4c"
+            font.pixelSize: root.fontSize * 2
+            text: root.nameForDelete
+        }
+
+        Item {
+            id: itemPopUpDeleteLine3
+            height: parent.height / 2
+            width: parent.width * 0.85
+            anchors.top: txtPopUpDeleteLine2.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            Rectangle{
+                id: btnPopUpDeleteCancel
+                height: parent.height * 0.5
+                width: parent.width * 0.45
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                color: mouseAreaDeleteCancel.pressed? "red":"#d83324"
+                radius: height / 2
+                Text{
+                    anchors.centerIn: parent
+                    font.pixelSize: root.fontSize
+                    color: "white"
+                    text: "CANCEL"
+                }
+
+                MouseArea{
+                    id: mouseAreaDeleteCancel
+                    anchors.fill: parent
+                    onClicked: {
+                        popUpDelete.visible = false
+                    }
+                }
+            }
+
+            Rectangle{
+                id: btnPopUpDeleteOk
+                height: parent.height * 0.5
+                width: parent.width * 0.45
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                color: mouseAreaDeleteOk.pressed? "green":"#416f4c"
+                radius: height / 2
+                Text{
+                    anchors.centerIn: parent
+                    font.pixelSize: root.fontSize
+                    color: "white"
+                    text: "DELETE"
+                }
+                MouseArea{
+                    id: mouseAreaDeleteOk
+                    anchors.fill: parent
+                    onClicked: {
+                        ProductsModel.remove(root.indexForDeleteEdit)
+                        popUpDelete.visible = false
+                    }
+                }
+            }
+        }
+    }
 
 
     Item{ // show password field

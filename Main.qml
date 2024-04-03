@@ -263,11 +263,9 @@ Window {
                     easing.type: Easing.InOutQuad
                 }
             }
-
         }
 
     } // Item root content
-
 
     InputPanel {
         id: inputPanel

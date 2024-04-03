@@ -135,6 +135,7 @@ void ReadProbes::processTemperatures()
         tmp_probeData.setT3(quit16ToFloat(reply->result().values()[1])/10);
         tmp_probeData.setT4(quit16ToFloat(reply->result().values()[0])/10);
         tmp_probeData.setBattery(reply->result().values()[6]);
+        // qDebug() << "Battery " << m_currentDevice+1 << " = " << reply->result().values()[6];
         m_probes->replace(m_currentDevice, tmp_probeData);
         incrementCurrentDevice(true);
     }

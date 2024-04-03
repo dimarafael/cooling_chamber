@@ -79,3 +79,4 @@ void ProductsModel::set(int row, QString name, float setpoint, bool mode)
     emit dataChanged(index(row,0), index(row,0));
 }
 
+
