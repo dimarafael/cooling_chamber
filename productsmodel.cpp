@@ -13,7 +13,6 @@ ProductsModel::ProductsModel(QObject *parent)
 
 int ProductsModel::rowCount(const QModelIndex &parent) const
 {
-    qDebug() << "Product count" << m_productList.count();
     return m_productList.count();
 }
 

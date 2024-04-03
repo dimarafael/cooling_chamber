@@ -42,39 +42,17 @@ void ReadProbes::readData()
         m_probes->replace(i, tmp_probeData);
     }
     emit dataReady(*m_probes);
-#endif
+#endif // SIMULATION
 
 #ifndef SIMULATION
     if(mc->state() == QModbusDevice::ConnectedState){
 
-        // for(int i = 0; i < N_PROBES; i++){
-
-
-        //     // vData = new QVector<quint16>(7);
-
-        //     du = new QModbusDataUnit(QModbusDataUnit::HoldingRegisters, (12188 + 150 * (i + 1)) ,QVector<quint16>(1));
-
-
-        //     // if(du == nullptr) delete du;
-        //     // du = new QModbusDataUnit(QModbusDataUnit::HoldingRegisters, (12201 + 150 * (i + 1)) ,*vData);
-        // }
-
-
-        // du = new QModbusDataUnit(QModbusDataUnit::HoldingRegisters, (12188 + 150 * (0 + 1)) ,QVector<quint16>(1));
-        // auto *reply = mc->sendReadRequest(*du,1);
-        // if(reply->isFinished()){
-        //     qDebug() << "reply->isFinished()";
-        //     delete reply;
-        // } else{
-        //     qDebug() << "NOT reply->isFinished()";
-        //     // connect(reply, &QModbusReply::finished, this, &modbus::processReplyResult);
-        // }
-
-        if(du == nullptr) delete du;
+        if(du != nullptr) delete du;
         du = new QModbusDataUnit(QModbusDataUnit::HoldingRegisters, (12188 + 150 * (m_currentDevice + 1)) ,QVector<quint16>(1));
         if(auto *reply = mc->sendReadRequest(*du,1)){
             if(reply->isFinished()){
                 delete reply;
+                incrementCurrentDevice(false);
             } else{
                 connect(reply, &QModbusReply::finished, this, &ReadProbes::processOnlineStatus);
             }
@@ -83,12 +61,11 @@ void ReadProbes::readData()
             incrementCurrentDevice(false);
         }
 
-
     } else if (mc->state() == QModbusDevice::UnconnectedState){
         mc->connectDevice();
     }
 
-#endif
+#endif // not SIMULATION
 
 }
 
@@ -113,11 +90,12 @@ void ReadProbes::processOnlineStatus()
 
     if(!reply->error()){
         if((reply->result().values()[0] & (1 << 9)) == 512){ // 512 - probe online
-            qDebug() << "Sensor " << QString::number(m_currentDevice) << " online";
+            // qDebug() << "Sensor " << QString::number(m_currentDevice) << " online";
+
             // probe connected, try to read data about temperatures
             if(mc->state() == QModbusDevice::ConnectedState){
 
-                if(du == nullptr) delete du;
+                if(du != nullptr) delete du;
                 du = new QModbusDataUnit(QModbusDataUnit::HoldingRegisters, (12201 + 150 * (m_currentDevice + 1)) ,QVector<quint16>(7));
                 if(auto *reply = mc->sendReadRequest(*du,1)){
                     if(reply->isFinished()){
