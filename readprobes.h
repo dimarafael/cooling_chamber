@@ -38,7 +38,7 @@ private:
     QTimer *m_timer;
     QModbusTcpClient *mc = nullptr;
     QVector<quint16> *vData;
-    QModbusDataUnit *du;
+    QModbusDataUnit *du = nullptr;
     int m_currentDevice; // for polling devices in loop
 
     void incrementCurrentDevice(bool isOnline); // if not online, set this device as offline

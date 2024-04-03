@@ -43,7 +43,7 @@ signals:
 
 private:
     QList<ProcessItem> m_processList;
-    bool m_gatewayOnline;
+    bool m_gatewayOnline = false;
 };
 
 #endif // PROCESSMODEL_H
