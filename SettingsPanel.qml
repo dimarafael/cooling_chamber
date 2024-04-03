@@ -165,6 +165,9 @@ Item{
                                 focus: true
                                 console.log("Edit " + delegate.index)
                                 txtEditLine1.text = delegate.productName
+                                txtEditLine2.text = delegate.setpoint.toFixed(1)
+                                popUpAddEdit.mode = delegate.coolMode
+                                popUpAddEdit.index = delegate.index
                                 popUpAddEdit.visible = true
                             }
                         }
@@ -342,11 +345,15 @@ Item{
     Rectangle{
         id: popUpAddEdit
         width: parent.width / 2
-        height: parent.height / 2
+        height: parent.height * 0.7
         radius: root.defMargin
         color: "white"
-        anchors.centerIn: parent
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter - height / 5
         visible: false
+        property bool mode: false
+        property int index: 0
+
         Item {
             id: popUpEditLine1
             width: parent.width
@@ -359,7 +366,6 @@ Item{
                 width: parent.width * 0.8
                 height: parent.height * 0.6
                 anchors.centerIn: parent
-                // validator: IntValidator{bottom: root.minVal; top: root.maxVal;}
                 inputMethodHints: Qt.ImhNoTextHandles // | hide selection handles
                 font.pixelSize: root.fontSize
                 verticalAlignment: Text.AlignVCenter
@@ -370,19 +376,192 @@ Item{
                     focus = false
                 }
 
-                onFocusChanged: {
-                    // if(!focus) root.dummy = ! root.dummy
-                    // else txtFld.selectAll()
+                background: Rectangle {
+                    color: "#00FFFFFF"
+                    border.width: 2
+                    border.color: parent.activeFocus ? "#416f4c" : "lightgray"
+                    Behavior on border.color {
+                        ColorAnimation {
+                            duration: 250
+                        }
+                    }
+                }
+            }
+        }
+        Item {
+            id: popUpEditLine2
+            width: parent.width
+            height: parent.height / 4
+            anchors.top: popUpEditLine1.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            TextField{
+                id: txtEditLine2
+                width: parent.width * 0.3
+                height: parent.height * 0.6
+                anchors.centerIn: parent
+                validator: RegularExpressionValidator {regularExpression: /^[0-9,/]+$/}
+                inputMethodHints: Qt.ImhDigitsOnly  | Qt.ImhNoTextHandles // | hide selection handles
+                font.pixelSize: root.fontSize
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+
+                onAccepted: {
+                    console.log(text)
+                    focus = false
                 }
 
                 background: Rectangle {
                     color: "#00FFFFFF"
                     border.width: 2
-                    border.color: parent.activeFocus ? "blueviolet" : "dimgrey"
+                    border.color: parent.activeFocus ? "#416f4c" : "lightgray"
                     Behavior on border.color {
                         ColorAnimation {
                             duration: 250
                         }
+                    }
+                }
+            }
+            Text{
+                anchors.left: txtEditLine2.right
+                anchors.verticalCenter: txtEditLine2.verticalCenter
+                anchors.leftMargin: root.fontSize / 4
+                font.pixelSize: root.fontSize
+                text: "℃"
+            }
+        }
+
+        Item {
+            id: popUpEditLine3
+            width: parent.width * 0.7
+            height: parent.height / 4
+            anchors.top: popUpEditLine2.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            Rectangle{
+                id: btnPopUpEditModeBg
+                height: root.height / 9
+                width: parent.width
+                anchors.centerIn: parent
+                color: "lightgrey"
+                radius: height / 2
+            }
+            Rectangle{
+                id: btnPopUpEditMode
+                height: root.height / 9
+                width: root.width / 5
+                x: popUpAddEdit.mode? popUpEditLine3.width-width :0
+                anchors.verticalCenter: btnPopUpEditModeBg.verticalCenter
+                color: "#3E95F9"
+                radius: height / 2
+                Behavior on x{
+                    NumberAnimation{
+                        duration: 150
+                        easing.type: Easing.InOutQuad
+                    }
+                }
+            }
+            Image {
+                id: imgPopUpEditMode0
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.leftMargin: parent.width * 0.2
+                fillMode: Image.PreserveAspectFit
+                source: "img/mode_0.svg"
+            }
+            ColorOverlay{
+                anchors.fill: imgPopUpEditMode0
+                source:imgPopUpEditMode0
+                color:"#3E95F9"
+                antialiasing: true
+                opacity: popUpAddEdit.mode? 1:0
+                Behavior on opacity {
+                    NumberAnimation{
+                        duration: 150
+                        easing.type: Easing.InOutQuad
+                    }
+                }
+            }
+            Image {
+                id: imgPopUpEditMode1
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                anchors.rightMargin: parent.width * 0.2
+                fillMode: Image.PreserveAspectFit
+                source: "img/mode_1.svg"
+            }
+            ColorOverlay{
+                anchors.fill: imgPopUpEditMode1
+                source:imgPopUpEditMode1
+                color:"#3E95F9"
+                antialiasing: true
+                opacity: popUpAddEdit.mode? 0:1
+                Behavior on opacity {
+                    NumberAnimation{
+                        duration: 150
+                        easing.type: Easing.InOutQuad
+                    }
+                }
+            }
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    popUpAddEdit.mode = !popUpAddEdit.mode
+                }
+            }
+        }
+
+        Item {
+            id: popUpEditLine4
+            width: parent.width * 0.9
+            height: parent.height / 4
+            anchors.top: popUpEditLine3.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            Rectangle{
+                id: btnPopUpEditCancel
+                height: root.height / 9
+                width: root.width / 5
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                color: mouseAreaEditCancel.pressed? "red":"#d83324"
+                radius: height / 2
+                Text{
+                    anchors.centerIn: parent
+                    font.pixelSize: root.fontSize
+                    color: "white"
+                    text: "CANCEL"
+                }
+
+                MouseArea{
+                    id: mouseAreaEditCancel
+                    anchors.fill: parent
+                    onClicked: {
+                        popUpAddEdit.visible = false
+                    }
+                }
+            }
+
+            Rectangle{
+                id: btnPopUpEditOk
+                height: root.height / 9
+                width: root.width / 5
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                color: mouseAreaEditOk.pressed? "green":"#416f4c"
+                radius: height / 2
+                Text{
+                    anchors.centerIn: parent
+                    font.pixelSize: root.fontSize
+                    color: "white"
+                    text: "OK"
+                }
+                MouseArea{
+                    id: mouseAreaEditOk
+                    anchors.fill: parent
+                    onClicked: {
+                        ProductsModel.set(popUpAddEdit.index, txtEditLine1.text, txtEditLine2.text, popUpAddEdit.mode);
+                        popUpAddEdit.visible = false
                     }
                 }
             }
