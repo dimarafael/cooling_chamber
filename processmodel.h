@@ -9,6 +9,7 @@
 class ProcessModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(bool gatewayOnline READ gatewayOnline WRITE setGatewayOnline NOTIFY gatewayOnlineChanged FINAL)
 public:
     enum Role{
         Temperature1Role = Qt::UserRole + 1,
@@ -30,11 +31,19 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
 
+    bool gatewayOnline() const;
+    void setGatewayOnline(bool newGatewayOnline);
+
 public slots:
     void dataReady(QVector<ProbeData> data);
+    void updateConnectedState(bool connected);
+
+signals:
+    void gatewayOnlineChanged();
 
 private:
     QList<ProcessItem> m_processList;
+    bool m_gatewayOnline;
 };
 
 #endif // PROCESSMODEL_H

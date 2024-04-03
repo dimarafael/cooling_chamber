@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
     QObject::connect(threadReadingProbes, &QThread::started, readProbes, &ReadProbes::run);
 
     QObject::connect(readProbes, &ReadProbes::dataReady, processModel, &ProcessModel::dataReady);
+    QObject::connect(readProbes, &ReadProbes::updateConnectedState, processModel, &ProcessModel::updateConnectedState);
 
     readProbes->moveToThread(threadReadingProbes);
     threadReadingProbes->start();

@@ -230,6 +230,24 @@ Window {
 
         }
 
+        Rectangle{
+            id: popUpGwOffline
+            // visible: !ProcessModel.gatewayOnline
+            visible: !ProcessModel.gatewayOnline
+            width: parent.width * 0.8
+            height: parent.height / 2
+            radius: window.defMargin
+            anchors.centerIn: parent
+            color: "red"
+            Text {
+                id: txtGwOffline
+                anchors.centerIn: parent
+                font.pixelSize: window.fontSize1 * 3
+                color: "white"
+                text: qsTr("Sensors gateway offline!")
+            }
+        }
+
 
         SettingsPanel {
             id: itemSettings

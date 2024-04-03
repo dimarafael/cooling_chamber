@@ -95,3 +95,21 @@ void ProcessModel::dataReady(QVector<ProbeData> data)
     }
     endResetModel();
 }
+
+void ProcessModel::updateConnectedState(bool connected)
+{
+    setGatewayOnline(connected);
+}
+
+bool ProcessModel::gatewayOnline() const
+{
+    return m_gatewayOnline;
+}
+
+void ProcessModel::setGatewayOnline(bool newGatewayOnline)
+{
+    if (m_gatewayOnline == newGatewayOnline)
+        return;
+    m_gatewayOnline = newGatewayOnline;
+    emit gatewayOnlineChanged();
+}
