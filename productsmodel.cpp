@@ -6,7 +6,7 @@ ProductsModel::ProductsModel(QObject *parent)
     for(int i=0; i<25; i++){
         Product prd;
         prd.setName("Product" + QString::number(i));
-        prd.setSetpoint(-1.7 + i);
+        prd.setSetpoint(-1.7 - i);
         m_productList.append(prd);
     }
 }

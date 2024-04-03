@@ -12,7 +12,12 @@ Item{
     property int fontSize: 30
     property color textColor: "black" //"#bb000000"
     property int indexForDeleteEdit: 0
-    property string nameForDelete: ""
+    property string nameForDeleteEdit: ""
+
+    function hideAllPopUps(){
+        popUpDelete.visible = false
+        popUpAddEdit.visible = false
+    }
 
     function checkPassword(){
         if(txtFldPass.text === "123"){
@@ -86,13 +91,7 @@ Item{
                 required property real setpoint
                 required property bool coolMode
                 required property int index
-                // Rectangle{
-                //     anchors.fill: parent
-                //     color: "blue"
-                //     Text {
-                //         text: delegate.productName + " - " + delegate.index
-                //     }
-                // }
+
                 Rectangle{
                     anchors.fill: parent
                     border.color: "grey"
@@ -106,6 +105,15 @@ Item{
                         font.pixelSize: root.fontSize
                         color: root.textColor
                         text: delegate.productName
+                    }
+
+                    Text{
+                        id:txtProductSetpoint
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: itemModeIcon.left
+                        font.pixelSize: root.fontSize
+                        color: root.textColor
+                        text: delegate.setpoint.toFixed(1)  + "℃"
                     }
 
                     Item{
@@ -156,6 +164,8 @@ Item{
                             onClicked: {
                                 focus: true
                                 console.log("Edit " + delegate.index)
+                                txtEditLine1.text = delegate.productName
+                                popUpAddEdit.visible = true
                             }
                         }
 
@@ -193,7 +203,7 @@ Item{
                                 focus: true
                                 console.log("Delete " + delegate.index)
                                 root.indexForDeleteEdit = delegate.index
-                                root.nameForDelete = delegate.productName
+                                root.nameForDeleteEdit = delegate.productName
                                 popUpDelete.visible = true
                             }
                         }
@@ -225,7 +235,7 @@ Item{
         radius: root.defMargin
         color: "gray"
         opacity: 0.7
-        visible: popUpDelete.visible
+        visible: popUpDelete.visible | popUpAddEdit.visible
         MouseArea{
             anchors.fill: parent
             onClicked: focus=true
@@ -270,7 +280,7 @@ Item{
             horizontalAlignment: Text.AlignHCenter
             color: "#416f4c"
             font.pixelSize: root.fontSize * 2
-            text: root.nameForDelete
+            text: root.nameForDeleteEdit
         }
 
         Item {
@@ -281,8 +291,8 @@ Item{
             anchors.horizontalCenter: parent.horizontalCenter
             Rectangle{
                 id: btnPopUpDeleteCancel
-                height: parent.height * 0.5
-                width: parent.width * 0.45
+                height: root.height / 9
+                width: root.width / 5
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 color: mouseAreaDeleteCancel.pressed? "red":"#d83324"
@@ -305,8 +315,8 @@ Item{
 
             Rectangle{
                 id: btnPopUpDeleteOk
-                height: parent.height * 0.5
-                width: parent.width * 0.45
+                height: root.height / 9
+                width: root.width / 5
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 color: mouseAreaDeleteOk.pressed? "green":"#416f4c"
@@ -323,6 +333,56 @@ Item{
                     onClicked: {
                         ProductsModel.remove(root.indexForDeleteEdit)
                         popUpDelete.visible = false
+                    }
+                }
+            }
+        }
+    }
+
+    Rectangle{
+        id: popUpAddEdit
+        width: parent.width / 2
+        height: parent.height / 2
+        radius: root.defMargin
+        color: "white"
+        anchors.centerIn: parent
+        visible: false
+        Item {
+            id: popUpEditLine1
+            width: parent.width
+            height: parent.height / 4
+            anchors.top: parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            TextField{
+                id: txtEditLine1
+                width: parent.width * 0.8
+                height: parent.height * 0.6
+                anchors.centerIn: parent
+                // validator: IntValidator{bottom: root.minVal; top: root.maxVal;}
+                inputMethodHints: Qt.ImhNoTextHandles // | hide selection handles
+                font.pixelSize: root.fontSize
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+
+                onAccepted: {
+                    console.log(text)
+                    focus = false
+                }
+
+                onFocusChanged: {
+                    // if(!focus) root.dummy = ! root.dummy
+                    // else txtFld.selectAll()
+                }
+
+                background: Rectangle {
+                    color: "#00FFFFFF"
+                    border.width: 2
+                    border.color: parent.activeFocus ? "blueviolet" : "dimgrey"
+                    Behavior on border.color {
+                        ColorAnimation {
+                            duration: 250
+                        }
                     }
                 }
             }

@@ -179,6 +179,7 @@ Window {
                         focus: true
                         window.showSettings = !window.showSettings
                         itemSettings.unlocked = true //false
+                        itemSettings.hideAllPopUps()
                     }
                 }
 
