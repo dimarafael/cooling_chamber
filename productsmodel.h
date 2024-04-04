@@ -3,6 +3,7 @@
 
 #include <QAbstractListModel>
 #include <QObject>
+#include <QSettings>
 #include "product.h"
 
 class ProductsModel : public QAbstractListModel
@@ -30,6 +31,8 @@ public:
 
 private:
     QList<Product> m_productList;
+
+    QSettings m_settings;
 };
 
 #endif // PRODUCTSMODEL_H

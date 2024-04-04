@@ -264,6 +264,9 @@ Window {
                     easing.type: Easing.InOutQuad
                 }
             }
+            onHidePanel: {
+                window.showSettings = false
+            }
         }
 
     } // Item root content

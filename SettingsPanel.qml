@@ -14,6 +14,8 @@ Item{
     property int indexForDeleteEdit: 0
     property string nameForDeleteEdit: ""
 
+    signal hidePanel()
+
     function hideAllPopUps(){
         popUpDelete.visible = false
         popUpAddEdit.visible = false
@@ -168,6 +170,7 @@ Item{
                                 txtEditLine2.text = delegate.setpoint.toFixed(1)
                                 popUpAddEdit.mode = delegate.coolMode
                                 popUpAddEdit.index = delegate.index
+                                popUpAddEdit.isEdit = true
                                 popUpAddEdit.visible = true
                             }
                         }
@@ -223,6 +226,70 @@ Item{
                         }
                     }
 
+                }
+            }
+        }
+        Item{
+            width: parent.width * 0.9
+            height: root.height - listProducts.height - listProducts.y
+            anchors.top: listProducts.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            Rectangle{
+                id: btnCanceSettings
+                height: root.height / 9
+                width: root.width / 5
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                color: mouseCancelSettings.pressed? "red":"#d83324"
+                radius: height / 2
+                Text{
+                    anchors.centerIn: parent
+                    font.pixelSize: root.fontSize
+                    color: "white"
+                    text: "CANCEL"
+                }
+
+                MouseArea{
+                    id: mouseCancelSettings
+                    anchors.fill: parent
+                    onClicked: {
+                        root.unlocked = false
+                        root.hideAllPopUps()
+                        root.hidePanel()
+                    }
+                }
+            }
+
+            Rectangle{
+                id: btnAddSettings
+                height: root.height / 9
+                width: root.width / 5
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                color: mouseAddSettings.pressed? "blue":"#3E95F9"
+                radius: height / 2
+                Text{
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.topMargin: -(root.fontSize * 0.6)
+                    font.pixelSize: root.fontSize * 3
+                    verticalAlignment: Text.AlignVCenter
+                    color: "white"
+                    text: "+"
+                }
+
+                MouseArea{
+                    id: mouseAddSettings
+                    anchors.fill: parent
+                    onClicked: {
+                        txtEditLine1.text = ""
+                        txtEditLine2.text = -1
+                        popUpAddEdit.mode = false
+                        popUpAddEdit.index = 0
+                        popUpAddEdit.isEdit = false
+                        popUpAddEdit.visible = true
+                    }
                 }
             }
         }
@@ -353,6 +420,7 @@ Item{
         visible: false
         property bool mode: false
         property int index: 0
+        property bool isEdit: false
 
         Item {
             id: popUpEditLine1
@@ -560,7 +628,11 @@ Item{
                     id: mouseAreaEditOk
                     anchors.fill: parent
                     onClicked: {
-                        ProductsModel.set(popUpAddEdit.index, txtEditLine1.text, txtEditLine2.text, popUpAddEdit.mode);
+                        if(popUpAddEdit.isEdit) ProductsModel.set(popUpAddEdit.index, txtEditLine1.text, txtEditLine2.text, popUpAddEdit.mode);
+                        else{
+                            ProductsModel.append(txtEditLine1.text, txtEditLine2.text, popUpAddEdit.mode);
+                            listProducts.positionViewAtEnd();
+                        }
                         popUpAddEdit.visible = false
                     }
                 }
