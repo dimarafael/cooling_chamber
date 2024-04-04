@@ -400,8 +400,8 @@ Item{
                 width: parent.width * 0.3
                 height: parent.height * 0.6
                 anchors.centerIn: parent
-                validator: RegularExpressionValidator {regularExpression: /^[0-9,/]+$/}
-                inputMethodHints: Qt.ImhDigitsOnly  | Qt.ImhNoTextHandles // | hide selection handles
+                validator: DoubleValidator{bottom:-50; top: 10; decimals: 1;}
+                inputMethodHints: Qt.ImhNoTextHandles // | Qt.ImhDigitsOnly  // | hide selection handles
                 font.pixelSize: root.fontSize
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
