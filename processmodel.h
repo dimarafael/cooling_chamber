@@ -34,6 +34,9 @@ public:
     bool gatewayOnline() const;
     void setGatewayOnline(bool newGatewayOnline);
 
+    Q_INVOKABLE void stopProcess(int index);
+    Q_INVOKABLE void startProcess(int index, QString productName, float setpoint, bool coolMode);
+
 public slots:
     void dataReady(QVector<ProbeData> data);
     void updateConnectedState(bool connected);

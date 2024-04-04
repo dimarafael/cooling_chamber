@@ -9,11 +9,16 @@ Item {
     property color shadowColor: "#88000000"
     property int fontSize: 30
 
+    signal stopProcess(int index)
+    signal startProcess(int index)
+
     MouseArea{
         anchors.fill: parent
         onClicked: {
             focus: true
             console.log("Delegate clicked " + (index+1).toString())
+            if(stage > 0) root.stopProcess(index)
+            else root.startProcess(index)
         }
     }
 

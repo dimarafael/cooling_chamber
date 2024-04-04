@@ -113,3 +113,20 @@ void ProcessModel::setGatewayOnline(bool newGatewayOnline)
     m_gatewayOnline = newGatewayOnline;
     emit gatewayOnlineChanged();
 }
+
+void ProcessModel::stopProcess(int index)
+{
+    beginResetModel();
+    m_processList[index].setState(0);
+    endResetModel();
+}
+
+void ProcessModel::startProcess(int index, QString productName, float setpoint, bool coolMode)
+{
+    beginResetModel();
+    m_processList[index].setProductName(productName);
+    m_processList[index].setSetpoint(setpoint);
+    m_processList[index].setCoolMode(coolMode);
+    m_processList[index].setState(1);
+    endResetModel();
+}
