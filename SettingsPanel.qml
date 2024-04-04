@@ -629,9 +629,9 @@ Item{
                     id: mouseAreaEditOk
                     anchors.fill: parent
                     onClicked: {
-                        if(popUpAddEdit.isEdit) ProductsModel.set(popUpAddEdit.index, txtEditLine1.text, txtEditLine2.text, popUpAddEdit.mode);
+                        if(popUpAddEdit.isEdit) ProductsModel.set(popUpAddEdit.index, txtEditLine1.text, Number(txtEditLine2.text).toFixed(1), popUpAddEdit.mode);
                         else{
-                            ProductsModel.append(txtEditLine1.text, txtEditLine2.text, popUpAddEdit.mode);
+                            ProductsModel.append(txtEditLine1.text, Number(txtEditLine2.text).toFixed(1), popUpAddEdit.mode);
                             listProducts.positionViewAtEnd();
                         }
                         popUpAddEdit.visible = false
