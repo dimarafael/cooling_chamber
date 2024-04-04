@@ -231,8 +231,10 @@ Window {
                     popUpStop.index = index
                     popUpStop.visible = true
                 }
-                onStartProcess: {
-                    ProcessModel.startProcess(index, "Prod 1", -1.7, false)
+                onStartProcess: index => {
+                    // ProcessModel.startProcess(index, "Prod 1", -1.7, false)
+                    popUpStart.index = index
+                    popUpStart.visible = true
                 }
             }
 
@@ -285,12 +287,36 @@ Window {
         height: window.height
         color: "gray"
         opacity: 0.7
-        visible: popUpStop.visible
+        visible: popUpStop.visible | popUpStart.visible
         MouseArea{
             anchors.fill: parent
             onClicked: focus=true
         }
     }
+
+    DropShadow {
+        anchors.fill: popUpStart
+        source: popUpStart
+        horizontalOffset: window.defMargin / 3
+        verticalOffset: window.defMargin / 3
+        radius: 8.0
+        samples: 17
+        color: "#88000000"
+        visible: popUpStart.visible
+    }
+    PopUpStart {
+        id: popUpStart
+        anchors.centerIn: parent
+        width: parent.width * 0.6
+        height: parent.height * 0.8
+        radius: window.defMargin
+        visible: false
+
+        buttonWidth: window.width / 5
+        fontSize: window.fontSize1
+
+    }
+
 
     DropShadow {
         anchors.fill: popUpStop
