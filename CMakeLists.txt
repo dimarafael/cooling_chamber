@@ -44,6 +44,7 @@ qt_add_qml_module(appcooling_chamber
     QML_FILES TargetMachine.qml
     QML_FILES ProcessItemDelegate.qml
     QML_FILES SettingsPanel.qml
+    QML_FILES PopUpStop.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

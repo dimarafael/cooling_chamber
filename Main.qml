@@ -227,7 +227,7 @@ Window {
                 defMargin: window.defMargin
                 shadowColor: window.shadowColor
                 fontSize: window.fontSize1
-                onStopProcess: {
+                onStopProcess: index => {
                     popUpStop.index = index
                     popUpStop.visible = true
                 }
@@ -254,98 +254,7 @@ Window {
                 color: "white"
                 text: qsTr("Sensors gateway offline!")
             }
-        }
-
-        Rectangle{
-            id: popUpStop
-            width: parent.width / 2
-            height: parent.height / 2
-            radius: window.defMargin
-            color: "white"
-            anchors.centerIn: parent
-            visible: false
-
-            property int index: 0
-
-            Text{
-                id: txtPopUpStopLine1
-                width: parent.width
-                height: parent.height / 4
-                anchors.top: parent.top
-                verticalAlignment: Text.AlignBottom
-                horizontalAlignment: Text.AlignHCenter
-                color: "#416f4c"
-                font.pixelSize: window.fontSize1 * 2
-                text: "Stop?"
-            }
-            Text{
-                id: txtPopUpStopLine2
-                width: parent.width
-                height: parent.height / 4
-                anchors.top: txtPopUpStopLine1.bottom
-                verticalAlignment: Text.AlignTop
-                horizontalAlignment: Text.AlignHCenter
-                color: "#416f4c"
-                font.pixelSize: window.fontSize1 * 2
-                text: "Place" + (popUpStop.index + 1)
-            }
-
-            Item {
-                id: itemPopUpStopLine3
-                height: parent.height / 2
-                width: parent.width * 0.85
-                anchors.top: txtPopUpStopLine2.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
-                Rectangle{
-                    id: btnPopUpStopCancel
-                    height: window.height / 10
-                    width: window.width / 5
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    color: mouseAreaStopCancel.pressed? "red":"#d83324"
-                    radius: height / 2
-                    Text{
-                        anchors.centerIn: parent
-                        font.pixelSize: window.fontSize1
-                        color: "white"
-                        text: "CANCEL"
-                    }
-
-                    MouseArea{
-                        id: mouseAreaStopCancel
-                        anchors.fill: parent
-                        onClicked: {
-                            popUpStop.visible = false
-                        }
-                    }
-                }
-
-                Rectangle{
-                    id: btnPopUpStopOk
-                    height: window.height / 10
-                    width: window.width / 5
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.right: parent.right
-                    color: mouseAreaStopOk.pressed? "green":"#416f4c"
-                    radius: height / 2
-                    Text{
-                        anchors.centerIn: parent
-                        font.pixelSize: window.fontSize1
-                        color: "white"
-                        text: "STOP"
-                    }
-                    MouseArea{
-                        id: mouseAreaStopOk
-                        anchors.fill: parent
-                        onClicked: {
-                            ProcessModel.stopProcess(popUpStop.index)
-                            popUpStop.visible = false
-                        }
-                    }
-                }
-            }
-        }
-
+        }        
 
         SettingsPanel {
             id: itemSettings
@@ -367,6 +276,47 @@ Window {
         }
 
     } // Item root content
+
+    Rectangle{
+        id:popUpBG
+        x: 0
+        y: 0
+        width: window.width
+        height: window.height
+        color: "gray"
+        opacity: 0.7
+        visible: popUpStop.visible
+        MouseArea{
+            anchors.fill: parent
+            onClicked: focus=true
+        }
+    }
+
+    DropShadow {
+        anchors.fill: popUpStop
+        source: popUpStop
+        horizontalOffset: window.defMargin / 3
+        verticalOffset: window.defMargin / 3
+        radius: 8.0
+        samples: 17
+        color: "#88000000"
+        visible: popUpStop.visible
+    }
+    PopUpStop {
+        id: popUpStop
+        anchors.centerIn: parent
+        width: parent.width / 2
+        height: parent.height / 2
+        radius: window.defMargin
+        visible: false
+
+        buttonWidth: window.width / 5
+        fontSize: window.fontSize1
+
+        onStop: index => {
+            ProcessModel.stopProcess(index)
+        }
+    }
 
     InputPanel {
         id: inputPanel
