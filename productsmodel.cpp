@@ -3,12 +3,13 @@
 ProductsModel::ProductsModel(QObject *parent)
     : QAbstractListModel{parent}
 {
-    for(int i=0; i<25; i++){
-        Product prd;
-        prd.setName("Product" + QString::number(i));
-        prd.setSetpoint(-1.7 - i);
-        m_productList.append(prd);
-    }
+    // for(int i=0; i<25; i++){
+    //     Product prd;
+    //     prd.setName("Product" + QString::number(i));
+    //     prd.setSetpoint(-1.7 - i);
+    //     m_productList.append(prd);
+    // }
+    readFromSettings();
 }
 
 int ProductsModel::rowCount(const QModelIndex &parent) const
@@ -53,6 +54,7 @@ void ProductsModel::append(QString name, float setpoint, bool mode)
     beginInsertRows(QModelIndex(),m_productList.size(),m_productList.size());
     m_productList.append(product);
     endInsertRows();
+    writeToSettings();
 }
 
 void ProductsModel::remove(int row)
@@ -63,6 +65,7 @@ void ProductsModel::remove(int row)
     beginRemoveRows(QModelIndex(),row, row);
     m_productList.removeAt(row);
     endRemoveRows();
+    writeToSettings();
 }
 
 void ProductsModel::set(int row, QString name, float setpoint, bool mode)
@@ -77,6 +80,33 @@ void ProductsModel::set(int row, QString name, float setpoint, bool mode)
 
     m_productList.replace(row, product);
     emit dataChanged(index(row,0), index(row,0));
+    writeToSettings();
+}
+
+void ProductsModel::readFromSettings()
+{
+    int size = m_settings.beginReadArray("products");
+    for (int i = 0; i < size; ++i) {
+        m_settings.setArrayIndex(i);
+        Product product;
+        product.setName(m_settings.value("name").toString());
+        product.setSetpoint(m_settings.value("setpoint").toFloat());
+        product.setCoolMode(m_settings.value("mode").toBool());
+        m_productList.append(product);
+    }
+    m_settings.endArray();
+}
+
+void ProductsModel::writeToSettings()
+{
+    m_settings.beginWriteArray("products");
+    for(qsizetype i = 0; i < m_productList.size(); ++i){
+        m_settings.setArrayIndex(i);
+        m_settings.setValue("name", m_productList.at(i).name());
+        m_settings.setValue("setpoint", m_productList.at(i).setpoint());
+        m_settings.setValue("mode", m_productList.at(i).coolMode());
+    }
+    m_settings.endArray();
 }
 
 

@@ -176,10 +176,10 @@ Window {
                     id: mouseAreaGear
                     anchors.fill: parent
                     onClicked: {
-                        focus: true
                         window.showSettings = !window.showSettings
                         itemSettings.unlocked = true //false
                         itemSettings.hideAllPopUps()
+                        focus: true
                     }
                 }
 

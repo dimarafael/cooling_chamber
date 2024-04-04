@@ -33,6 +33,8 @@ private:
     QList<Product> m_productList;
 
     QSettings m_settings;
+    void readFromSettings();
+    void writeToSettings();
 };
 
 #endif // PRODUCTSMODEL_H

@@ -272,7 +272,7 @@ Item{
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.topMargin: -(root.fontSize * 0.6)
+                    // anchors.topMargin: -(root.fontSize * 0.6)
                     font.pixelSize: root.fontSize * 3
                     verticalAlignment: Text.AlignVCenter
                     color: "white"
@@ -416,7 +416,8 @@ Item{
         radius: root.defMargin
         color: "white"
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter - height / 5
+        anchors.top: parent.top
+        anchors.topMargin: height / 8
         visible: false
         property bool mode: false
         property int index: 0
