@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.VirtualKeyboard
 import Qt5Compat.GraphicalEffects
-import com.kometa.ProcessModel
+import com.kometa.ProductsModel
 
 import QtQuick.Controls
 
@@ -28,7 +28,7 @@ Rectangle{
     }
 
     ListView{
-        id: productsList
+        id: listProducts
         anchors.top: txtLine1.bottom
         anchors.topMargin: parent.height / 100
         anchors.horizontalCenter: parent.horizontalCenter
@@ -37,15 +37,73 @@ Rectangle{
         clip: true
         ScrollBar.vertical: ScrollBar { }
 
-        Rectangle{
-            anchors.fill: parent
-            color: "lightgray"
+        model: ProductsModel
+
+        delegate: Item {
+            id: delegate
+            height: listProducts.height / 4
+            width: listProducts.width
+
+            required property string productName
+            required property real setpoint
+            required property bool coolMode
+            required property int index
+
+            Rectangle{
+                anchors.fill: parent
+                border.color: "lightgrey"
+                border.width: 1
+                color: "white"
+                Text {
+                    id: txtProductName
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: parent.height / 4
+                    font.pixelSize: root.fontSize
+                    color: "black"
+                    text: delegate.productName
+                }
+                Text{
+                    id:txtProductSetpoint
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: itemModeIcon.left
+                    font.pixelSize: root.fontSize
+                    color: "black"
+                    text: delegate.setpoint.toFixed(1)  + "℃"
+                }
+                Item{
+                    id: itemModeIcon
+                    anchors{
+                        top: parent.top
+                        right: parent.right
+                        bottom: parent.bottom
+                    }
+                    width: height * 2
+
+                    Image {
+                        id: imgModeIcon
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        height: parent.height * 0.8
+                        fillMode: Image.PreserveAspectFit
+                        source: delegate.coolMode?"img/mode_1.svg":"img/mode_0.svg"
+                        sourceSize.height: height
+                        smooth: false
+                    }
+                    ColorOverlay{
+                        anchors.fill: imgModeIcon
+                        source:imgModeIcon
+                        color:"black"
+                        antialiasing: true
+                    }
+                }
+            }
         }
     }
 
     Item{
         id: itemLine3
-        anchors.top: productsList.bottom
+        anchors.top: listProducts.bottom
         width: parent.width * 0.9
         height: parent.height * 0.18
         anchors.horizontalCenter: parent.horizontalCenter
@@ -109,6 +167,11 @@ Rectangle{
             font.bold: true
             color: (root.targetLine === 1)?"white":"#3E95F9"
             text: "1"
+            Behavior on color {
+                ColorAnimation {
+                    duration: 150
+                }
+            }
         }
         Text{
             id: txtTarget2
@@ -118,6 +181,11 @@ Rectangle{
             font.bold: true
             color: (root.targetLine === 2)?"white":"#3E95F9"
             text: "2"
+            Behavior on color {
+                ColorAnimation {
+                    duration: 150
+                }
+            }
         }
         Text{
             id: txtTarget3
@@ -128,6 +196,11 @@ Rectangle{
             font.bold: true
             color: (root.targetLine === 3)?"white":"#3E95F9"
             text: "3"
+            Behavior on color {
+                ColorAnimation {
+                    duration: 150
+                }
+            }
         }
     }
 
