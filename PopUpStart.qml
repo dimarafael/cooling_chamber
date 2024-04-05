@@ -15,6 +15,8 @@ Rectangle{
     property int fontSize: 30
     property int targetLine: 1 // 1, 2, 3
 
+    signal start(int index, string productName, real setpoint, bool coolMode, int targetLine)
+
     Text{
         id: txtLine1
         width: parent.width
@@ -37,6 +39,11 @@ Rectangle{
         clip: true
         ScrollBar.vertical: ScrollBar { }
 
+        property int indexSelected: -1
+        property string nameSelected: ""
+        property real setpointSelected: 0
+        property bool coolModeSelected: false
+
         model: ProductsModel
 
         delegate: Item {
@@ -54,13 +61,30 @@ Rectangle{
                 border.color: "lightgrey"
                 border.width: 1
                 color: "white"
+                Rectangle{ // selected line
+                    anchors.fill: parent
+                    color: "#3E95F9"
+                    visible: delegate.index === listProducts.indexSelected
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        focus = true
+                        listProducts.indexSelected = delegate.index
+                        listProducts.nameSelected = delegate.productName
+                        listProducts.setpointSelected = delegate.setpoint
+                        listProducts.coolModeSelected = delegate.coolMode
+                    }
+                }
+
                 Text {
                     id: txtProductName
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: parent.height / 4
                     font.pixelSize: root.fontSize
-                    color: "black"
+                    font.bold: delegate.index === listProducts.indexSelected
+                    color: (delegate.index === listProducts.indexSelected)?"white":"black"
                     text: delegate.productName
                 }
                 Text{
@@ -68,7 +92,8 @@ Rectangle{
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: itemModeIcon.left
                     font.pixelSize: root.fontSize
-                    color: "black"
+                    font.bold: delegate.index === listProducts.indexSelected
+                    color: (delegate.index === listProducts.indexSelected)?"white":"black"
                     text: delegate.setpoint.toFixed(1)  + "℃"
                 }
                 Item{
@@ -95,10 +120,12 @@ Rectangle{
                         source:imgModeIcon
                         color:"black"
                         antialiasing: true
+                        visible: delegate.index != listProducts.indexSelected
                     }
                 }
             }
         }
+        highlight: Rectangle {color: "lightsteelblue"}
     }
 
     Item{
@@ -253,8 +280,10 @@ Rectangle{
                 id: mouseAreaOk
                 anchors.fill: parent
                 onClicked: {
-                    // popUpStop.stop(popUpStop.index)
-                    root.visible = false
+                    if(listProducts.indexSelected > 0){
+                        root.start(root.index, listProducts.nameSelected, listProducts.setpointSelected, listProducts.coolModeSelected, root.targetLine)
+                        root.visible = false
+                    }
                 }
             }
         }

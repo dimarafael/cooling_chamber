@@ -314,7 +314,9 @@ Window {
 
         buttonWidth: window.width / 5
         fontSize: window.fontSize1
-
+        onStart: (index, productName, setpoint, coolMode, targetLine) => {
+                     ProcessModel.startProcess(index, productName, setpoint, coolMode, targetLine)
+                 }
     }
 
 

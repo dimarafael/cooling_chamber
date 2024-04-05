@@ -35,7 +35,7 @@ public:
     void setGatewayOnline(bool newGatewayOnline);
 
     Q_INVOKABLE void stopProcess(int index);
-    Q_INVOKABLE void startProcess(int index, QString productName, float setpoint, bool coolMode);
+    Q_INVOKABLE void startProcess(int index, QString productName, float setpoint, bool coolMode, int target);
 
 public slots:
     void dataReady(QVector<ProbeData> data);

@@ -121,12 +121,13 @@ void ProcessModel::stopProcess(int index)
     endResetModel();
 }
 
-void ProcessModel::startProcess(int index, QString productName, float setpoint, bool coolMode)
+void ProcessModel::startProcess(int index, QString productName, float setpoint, bool coolMode, int target)
 {
     beginResetModel();
     m_processList[index].setProductName(productName);
     m_processList[index].setSetpoint(setpoint);
     m_processList[index].setCoolMode(coolMode);
     m_processList[index].setState(1);
+    m_processList[index].setTarget(target);
     endResetModel();
 }
