@@ -6,23 +6,23 @@ ProcessModel::ProcessModel(QObject *parent)
     for(int i =0; i < 12; i++){
         m_processList.append(ProcessItem());
     }
-    m_processList[1].setState(1);
-    m_processList[2].setState(2);
-    m_processList[3].setCoolMode(true);
-    m_processList[0].setT4(-88.8);
-    m_processList[0].setT3(-77.7);
-    m_processList[0].setT2(-12.3);
-    m_processList[0].setT1(-45.6);
-    m_processList[0].setState(2);
-    m_processList[0].setSetpoint(-18.8);
-    m_processList[1].setSetpoint(-5);
-    m_processList[0].setProductName("Product name 1");
-    m_processList[0].setTarget(1);
-    m_processList[1].setTarget(2);
-    m_processList[2].setTarget(3);
-    m_processList[1].setCoolMode(true);
-    m_processList[2].setOffline(true);
-    m_processList[11].setDischarged(true);
+    // m_processList[1].setState(1);
+    // m_processList[2].setState(2);
+    // m_processList[3].setCoolMode(true);
+    // m_processList[0].setT4(-88.8);
+    // m_processList[0].setT3(-77.7);
+    // m_processList[0].setT2(-12.3);
+    // m_processList[0].setT1(-45.6);
+    // m_processList[0].setState(2);
+    // m_processList[0].setSetpoint(-18.8);
+    // m_processList[1].setSetpoint(-5);
+    // m_processList[0].setProductName("Product name 1");
+    // m_processList[0].setTarget(1);
+    // m_processList[1].setTarget(2);
+    // m_processList[2].setTarget(3);
+    // m_processList[1].setCoolMode(true);
+    // m_processList[2].setOffline(true);
+    // m_processList[11].setDischarged(true);
 }
 
 int ProcessModel::rowCount(const QModelIndex &parent) const
@@ -93,6 +93,7 @@ void ProcessModel::dataReady(QVector<ProbeData> data)
         m_processList[i].setOffline(!data[i].online());
         m_processList[i].setDischarged(false);// !!!!!!!!!! Write logic for discharged
     }
+    calculateProcess();
     endResetModel();
 }
 
@@ -117,6 +118,27 @@ void ProcessModel::calculateTargets()
     emit target1Changed();
     emit target2Changed();
     emit target3Changed();
+}
+
+void ProcessModel::calculateProcess()
+{
+    for(int i = 0; i < m_processList.count(); i++){
+        if (m_processList[i].state() == 1 && !m_processList[i].offline()){ // 0 - empty, 1 - cooling, 2 - ready
+            if(m_processList[i].coolMode()){ // false - only one sensor, true - all sensers
+                if(m_processList[i].t1() <= m_processList[i].setpoint() &&
+                    m_processList[i].t2() <= m_processList[i].setpoint() &&
+                    m_processList[i].t3() <= m_processList[i].setpoint()){
+                    m_processList[i].setState(2);
+                }
+            } else{
+                if(m_processList[i].t1() <= m_processList[i].setpoint() ||
+                    m_processList[i].t2() <= m_processList[i].setpoint() ||
+                    m_processList[i].t3() <= m_processList[i].setpoint()){
+                    m_processList[i].setState(2);
+                }
+            }
+        }
+    }
 }
 
 bool ProcessModel::gatewayOnline() const

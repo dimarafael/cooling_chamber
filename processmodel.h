@@ -70,6 +70,7 @@ private:
     int m_target3 = 0;
 
     void calculateTargets();
+    void calculateProcess();
 };
 
 #endif // PROCESSMODEL_H
