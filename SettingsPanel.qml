@@ -29,6 +29,13 @@ Item{
         txtFldPass.text = ""
     }
 
+    MouseArea{
+        anchors.fill: parent
+        onClicked: {
+            focus = true
+        }
+    }
+
     MouseArea{ // Hidden area for close application
         anchors.bottom: parent.bottom
         anchors.right: parent.right

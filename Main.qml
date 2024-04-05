@@ -177,7 +177,7 @@ Window {
                     anchors.fill: parent
                     onClicked: {
                         window.showSettings = !window.showSettings
-                        itemSettings.unlocked = true //false
+                        itemSettings.unlocked = false
                         itemSettings.hideAllPopUps()
                         focus: true
                     }
