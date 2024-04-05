@@ -17,6 +17,10 @@ Rectangle{
 
     signal start(int index, string productName, real setpoint, bool coolMode, int targetLine)
 
+    onVisibleChanged: {
+        if(visible === true) listProducts.indexSelected = -1
+    }
+
     Text{
         id: txtLine1
         width: parent.width
@@ -280,7 +284,7 @@ Rectangle{
                 id: mouseAreaOk
                 anchors.fill: parent
                 onClicked: {
-                    if(listProducts.indexSelected > 0){
+                    if(listProducts.indexSelected >= 0){
                         root.start(root.index, listProducts.nameSelected, listProducts.setpointSelected, listProducts.coolModeSelected, root.targetLine)
                         root.visible = false
                     }

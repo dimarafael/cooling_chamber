@@ -48,7 +48,7 @@ private:
     float m_setpoint;
     bool m_coolMode; // false - only one sensor, true - all sensers
     int m_state; // 0 - empty, 1 - cooling, 2 - ready
-    int m_target; // target production line
+    int m_target; // target production line | 1, 2, 3
     QString m_productName;
     bool m_discharged;
     bool m_offline;

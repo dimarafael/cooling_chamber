@@ -10,6 +10,9 @@ class ProcessModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(bool gatewayOnline READ gatewayOnline WRITE setGatewayOnline NOTIFY gatewayOnlineChanged FINAL)
+    Q_PROPERTY(int target1 READ target1 WRITE setTarget1 NOTIFY target1Changed FINAL)
+    Q_PROPERTY(int target2 READ target2 WRITE setTarget2 NOTIFY target2Changed FINAL)
+    Q_PROPERTY(int target3 READ target3 WRITE setTarget3 NOTIFY target3Changed FINAL)
 public:
     enum Role{
         Temperature1Role = Qt::UserRole + 1,
@@ -37,6 +40,15 @@ public:
     Q_INVOKABLE void stopProcess(int index);
     Q_INVOKABLE void startProcess(int index, QString productName, float setpoint, bool coolMode, int target);
 
+    int target1() const;
+    void setTarget1(int newTarget1);
+
+    int target2() const;
+    void setTarget2(int newTarget2);
+
+    int target3() const;
+    void setTarget3(int newTarget3);
+
 public slots:
     void dataReady(QVector<ProbeData> data);
     void updateConnectedState(bool connected);
@@ -44,9 +56,20 @@ public slots:
 signals:
     void gatewayOnlineChanged();
 
+    void target1Changed();
+
+    void target2Changed();
+
+    void target3Changed();
+
 private:
     QList<ProcessItem> m_processList;
     bool m_gatewayOnline = false;
+    int m_target1 = 0;
+    int m_target2 = 0;
+    int m_target3 = 0;
+
+    void calculateTargets();
 };
 
 #endif // PROCESSMODEL_H

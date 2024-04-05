@@ -101,6 +101,24 @@ void ProcessModel::updateConnectedState(bool connected)
     setGatewayOnline(connected);
 }
 
+void ProcessModel::calculateTargets()
+{
+    m_target1 = 0;
+    m_target2 = 0;
+    m_target3 = 0;
+
+    for(int i = 0; i < m_processList.count(); i++){
+        if (m_processList[i].state() > 0){
+            if(m_processList[i].target() == 1) m_target1++;
+            if(m_processList[i].target() == 2) m_target2++;
+            if(m_processList[i].target() == 3) m_target3++;
+        }
+    }
+    emit target1Changed();
+    emit target2Changed();
+    emit target3Changed();
+}
+
 bool ProcessModel::gatewayOnline() const
 {
     return m_gatewayOnline;
@@ -119,6 +137,7 @@ void ProcessModel::stopProcess(int index)
     beginResetModel();
     m_processList[index].setState(0);
     endResetModel();
+    calculateTargets();
 }
 
 void ProcessModel::startProcess(int index, QString productName, float setpoint, bool coolMode, int target)
@@ -130,4 +149,44 @@ void ProcessModel::startProcess(int index, QString productName, float setpoint, 
     m_processList[index].setState(1);
     m_processList[index].setTarget(target);
     endResetModel();
+    calculateTargets();
+}
+
+int ProcessModel::target1() const
+{
+    return m_target1;
+}
+
+void ProcessModel::setTarget1(int newTarget1)
+{
+    if (m_target1 == newTarget1)
+        return;
+    m_target1 = newTarget1;
+    emit target1Changed();
+}
+
+int ProcessModel::target2() const
+{
+    return m_target2;
+}
+
+void ProcessModel::setTarget2(int newTarget2)
+{
+    if (m_target2 == newTarget2)
+        return;
+    m_target2 = newTarget2;
+    emit target2Changed();
+}
+
+int ProcessModel::target3() const
+{
+    return m_target3;
+}
+
+void ProcessModel::setTarget3(int newTarget3)
+{
+    if (m_target3 == newTarget3)
+        return;
+    m_target3 = newTarget3;
+    emit target3Changed();
 }

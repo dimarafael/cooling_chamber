@@ -93,7 +93,7 @@ Window {
                 }
                 width: topMenu.width / 4.5
                 fontSize: window.fontSize1
-                productQty: "3"
+                productQty: ProcessModel.target1
                 machineNumber: "1"
             }
 
@@ -117,7 +117,7 @@ Window {
                 }
                 width: topMenu.width / 4.5
                 fontSize: window.fontSize1
-                productQty: "11"
+                productQty: ProcessModel.target2
                 machineNumber: "2"
             }
 
@@ -141,7 +141,7 @@ Window {
                 }
                 width: topMenu.width / 4.5
                 fontSize: window.fontSize1
-                productQty: "14"
+                productQty: ProcessModel.target3
                 machineNumber: "3"
             }
 
