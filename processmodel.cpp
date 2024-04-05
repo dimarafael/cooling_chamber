@@ -6,6 +6,9 @@ ProcessModel::ProcessModel(QObject *parent)
     for(int i =0; i < 12; i++){
         m_processList.append(ProcessItem());
     }
+
+    m_lamp = new Lamp(this);
+
     // m_processList[1].setState(1);
     // m_processList[2].setState(2);
     // m_processList[3].setCoolMode(true);

@@ -73,7 +73,7 @@ private:
     void calculateTargets();
     void calculateProcess();
 
-    Lamp m_lamp;
+    Lamp *m_lamp;
 };
 
 #endif // PROCESSMODEL_H
