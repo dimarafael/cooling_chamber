@@ -8,12 +8,8 @@ Lamp::Lamp(QObject *parent)
         file.write("24", 2);
     }
     file.close();
-    file.setFileName("/sys/class/gpio/gpio24/direction");
-    if(file.open(QIODevice::WriteOnly)){
-        file.write("out", 3);
-    }
-    file.close();
 
+    QTimer::singleShot(100, this, &Lamp::setOutMode);
 
     m_timer = new QTimer(this);
     m_timer->setInterval(500);
@@ -41,6 +37,15 @@ void Lamp::timeout()
     } else{
         onLamp();
     }
+}
+
+void Lamp::setOutMode()
+{
+    file.setFileName("/sys/class/gpio/gpio24/direction");
+    if(file.open(QIODevice::WriteOnly)){
+        file.write("out", 3);
+    }
+    file.close();
 }
 
 void Lamp::onLamp()

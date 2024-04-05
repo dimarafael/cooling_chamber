@@ -24,6 +24,7 @@ private:
     QTimer *m_timer;
     bool m_lampState = false;
     QFile file;
+    void setOutMode();
     void onLamp();
     void offLamp();
 };
