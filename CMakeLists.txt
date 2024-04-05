@@ -20,6 +20,7 @@ add_library(CoolingChamberLibrary
     readprobes.h readprobes.cpp
     productsmodel.h productsmodel.cpp
     product.h product.cpp
+    lamp.h lamp.cpp
 )
 
 target_link_libraries(CoolingChamberLibrary

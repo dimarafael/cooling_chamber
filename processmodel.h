@@ -5,6 +5,7 @@
 #include <QObject>
 #include "processitem.h"
 #include "probedata.h"
+#include "lamp.h"
 
 class ProcessModel : public QAbstractListModel
 {
@@ -71,6 +72,8 @@ private:
 
     void calculateTargets();
     void calculateProcess();
+
+    Lamp m_lamp;
 };
 
 #endif // PROCESSMODEL_H
