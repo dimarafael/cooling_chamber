@@ -2,7 +2,7 @@
 #define LAMP_H
 
 #include <QObject>
-#include <QProcess>
+#include <QFile>
 
 class Lamp : public QObject
 {
@@ -13,7 +13,6 @@ public:
 signals:
 
 private:
-    QProcess m_process;
 };
 
 #endif // LAMP_H
