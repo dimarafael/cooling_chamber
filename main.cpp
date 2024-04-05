@@ -4,6 +4,7 @@
 #include "processmodel.h"
 #include "readprobes.h"
 #include "productsmodel.h"
+#include "lamp.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +20,10 @@ int main(int argc, char *argv[])
 
     ProcessModel *processModel = new ProcessModel(&app);
     qmlRegisterSingletonInstance("com.kometa.ProcessModel", 1, 1, "ProcessModel", processModel);
+
+    Lamp *lamp = new Lamp(&app);
+    QObject::connect(processModel, &ProcessModel::lampStart, lamp, &Lamp::start);
+    QObject::connect(processModel, &ProcessModel::lampStop, lamp, &Lamp::stop);
 
     ProductsModel *productsModel = new ProductsModel(&app);
     qmlRegisterSingletonInstance("com.kometa.ProductsModel", 1, 1, "ProductsModel", productsModel);

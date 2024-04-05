@@ -7,8 +7,6 @@ ProcessModel::ProcessModel(QObject *parent)
         m_processList.append(ProcessItem());
     }
 
-    m_lamp = new Lamp(this);
-
     // m_processList[1].setState(1);
     // m_processList[2].setState(2);
     // m_processList[3].setCoolMode(true);
@@ -132,16 +130,24 @@ void ProcessModel::calculateProcess()
                     m_processList[i].t2() <= m_processList[i].setpoint() &&
                     m_processList[i].t3() <= m_processList[i].setpoint()){
                     m_processList[i].setState(2);
+                    emit lampStart();
                 }
             } else{
                 if(m_processList[i].t1() <= m_processList[i].setpoint() ||
                     m_processList[i].t2() <= m_processList[i].setpoint() ||
                     m_processList[i].t3() <= m_processList[i].setpoint()){
                     m_processList[i].setState(2);
+                    emit lampStart();
                 }
             }
         }
     }
+
+    bool needLamp = false;
+    for(int i = 0; i < m_processList.count(); i++){
+        if(m_processList[i].state() == 2) needLamp = true;
+    }
+    if (!needLamp) emit lampStop();
 }
 
 bool ProcessModel::gatewayOnline() const

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QFile>
+#include <QTimer>
 
 class Lamp : public QObject
 {
@@ -12,7 +13,19 @@ public:
 
 signals:
 
+public slots:
+    void start();
+    void stop();
+
+private slots:
+    void timeout();
+
 private:
+    QTimer *m_timer;
+    bool m_lampState = false;
+    QFile file;
+    void onLamp();
+    void offLamp();
 };
 
 #endif // LAMP_H

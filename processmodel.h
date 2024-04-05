@@ -56,12 +56,11 @@ public slots:
 
 signals:
     void gatewayOnlineChanged();
-
     void target1Changed();
-
     void target2Changed();
-
     void target3Changed();
+    void lampStart();
+    void lampStop();
 
 private:
     QList<ProcessItem> m_processList;
@@ -72,8 +71,6 @@ private:
 
     void calculateTargets();
     void calculateProcess();
-
-    Lamp *m_lamp;
 };
 
 #endif // PROCESSMODEL_H
