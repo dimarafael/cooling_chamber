@@ -128,14 +128,16 @@ void ProcessModel::calculateProcess()
             if(m_processList[i].coolMode()){ // false - only one sensor, true - all sensers
                 if(m_processList[i].t1() <= m_processList[i].setpoint() &&
                     m_processList[i].t2() <= m_processList[i].setpoint() &&
-                    m_processList[i].t3() <= m_processList[i].setpoint()){
+                    m_processList[i].t3() <= m_processList[i].setpoint() &&
+                    m_processList[i].t4() <= m_processList[i].setpoint()){
                     m_processList[i].setState(2);
                     emit lampStart();
                 }
             } else{
                 if(m_processList[i].t1() <= m_processList[i].setpoint() ||
                     m_processList[i].t2() <= m_processList[i].setpoint() ||
-                    m_processList[i].t3() <= m_processList[i].setpoint()){
+                    m_processList[i].t3() <= m_processList[i].setpoint() ||
+                    m_processList[i].t4() <= m_processList[i].setpoint()){
                     m_processList[i].setState(2);
                     emit lampStart();
                 }
