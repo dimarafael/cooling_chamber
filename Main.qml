@@ -94,7 +94,7 @@ Window {
                 width: topMenu.width / 4.5
                 fontSize: window.fontSize1
                 productQty: ProcessModel.target1
-                machineNumber: "1"
+                machineNumber: "2"
             }
 
             Rectangle{
@@ -118,7 +118,7 @@ Window {
                 width: topMenu.width / 4.5
                 fontSize: window.fontSize1
                 productQty: ProcessModel.target2
-                machineNumber: "2"
+                machineNumber: "3"
             }
 
             Rectangle{
@@ -142,7 +142,7 @@ Window {
                 width: topMenu.width / 4.5
                 fontSize: window.fontSize1
                 productQty: ProcessModel.target3
-                machineNumber: "3"
+                machineNumber: "4"
             }
 
             Rectangle{

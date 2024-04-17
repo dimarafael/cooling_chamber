@@ -197,7 +197,7 @@ Rectangle{
             font.pixelSize: root.fontSize * 2
             font.bold: true
             color: (root.targetLine === 1)?"white":"#3E95F9"
-            text: "1"
+            text: "2"
             Behavior on color {
                 ColorAnimation {
                     duration: 150
@@ -211,7 +211,7 @@ Rectangle{
             font.pixelSize: root.fontSize * 2
             font.bold: true
             color: (root.targetLine === 2)?"white":"#3E95F9"
-            text: "2"
+            text: "3"
             Behavior on color {
                 ColorAnimation {
                     duration: 150
@@ -226,7 +226,7 @@ Rectangle{
             font.pixelSize: root.fontSize * 2
             font.bold: true
             color: (root.targetLine === 3)?"white":"#3E95F9"
-            text: "3"
+            text: "4"
             Behavior on color {
                 ColorAnimation {
                     duration: 150

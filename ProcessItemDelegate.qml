@@ -325,7 +325,7 @@ Item {
                 verticalAlignment: Text.AlignVCenter
                 // font.bold: true
                 color: "white"
-                text: String.fromCodePoint(0x21D2)+ " " + target
+                text: String.fromCodePoint(0x21D2)+ " " + (target + 1)
             }
         }
         Item{
