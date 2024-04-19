@@ -65,6 +65,26 @@ Item {
         }
     }
 
+    Rectangle{ // progressbar
+        anchors.left: rect1.left
+        anchors.top: rect1.top
+        anchors.bottom: rect1.bottom
+        width: rect1.width * ( (setpoint - temperature4) / (setpoint - setpoint2) )
+        clip: true
+        visible: (stage===2) && (temperature4 - setpoint)
+        color:"#00ffffff"
+
+        Rectangle{
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            width: rect1.width
+            radius: rect1.radius
+            color: "fuchsia"
+            opacity: 0.5
+        }
+    }
+
     // PropertyAnimation{
     //     target: gradientBlue
     //     property: "gradShift"
