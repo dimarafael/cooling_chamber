@@ -15,7 +15,7 @@ Rectangle{
     property int fontSize: 30
     property int targetLine: 1 // 1, 2, 3
 
-    signal start(int index, string productName, real setpoint, bool coolMode, int targetLine)
+    signal start(int index, string productName, real setpoint, bool coolMode, int targetLine, real setpoint2)
 
     onVisibleChanged: {
         if(visible === true) listProducts.indexSelected = -1
@@ -46,6 +46,7 @@ Rectangle{
         property int indexSelected: -1
         property string nameSelected: ""
         property real setpointSelected: 0
+        property real setpoint2Selected: 0
         property bool coolModeSelected: false
 
         model: ProductsModel
@@ -57,6 +58,7 @@ Rectangle{
 
             required property string productName
             required property real setpoint
+            required property real setpoint2
             required property bool coolMode
             required property int index
 
@@ -77,6 +79,7 @@ Rectangle{
                         listProducts.indexSelected = delegate.index
                         listProducts.nameSelected = delegate.productName
                         listProducts.setpointSelected = delegate.setpoint
+                        listProducts.setpoint2Selected = delegate.setpoint2
                         listProducts.coolModeSelected = delegate.coolMode
                     }
                 }
@@ -94,11 +97,21 @@ Rectangle{
                 Text{
                     id:txtProductSetpoint
                     anchors.verticalCenter: parent.verticalCenter
-                    anchors.right: itemModeIcon.left
+                    anchors.right: txtProductSetpoint2.left
+                    anchors.rightMargin: root.fontSize
                     font.pixelSize: root.fontSize
                     font.bold: delegate.index === listProducts.indexSelected
                     color: (delegate.index === listProducts.indexSelected)?"white":"black"
                     text: delegate.setpoint.toFixed(1)  + "℃"
+                }
+                Text{
+                    id:txtProductSetpoint2
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: itemModeIcon.left
+                    font.pixelSize: root.fontSize
+                    font.bold: delegate.index === listProducts.indexSelected
+                    color: (delegate.index === listProducts.indexSelected)?"#f6cfd5":"#ce253c"
+                    text: delegate.setpoint2.toFixed(1)  + "℃"
                 }
                 Item{
                     id: itemModeIcon
@@ -129,7 +142,6 @@ Rectangle{
                 }
             }
         }
-        highlight: Rectangle {color: "lightsteelblue"}
     }
 
     Item{
@@ -285,7 +297,7 @@ Rectangle{
                 anchors.fill: parent
                 onClicked: {
                     if(listProducts.indexSelected >= 0){
-                        root.start(root.index, listProducts.nameSelected, listProducts.setpointSelected, listProducts.coolModeSelected, root.targetLine)
+                        root.start(root.index, listProducts.nameSelected, listProducts.setpointSelected, listProducts.coolModeSelected, root.targetLine, listProducts.setpoint2Selected)
                         root.visible = false
                     }
                 }

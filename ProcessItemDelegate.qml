@@ -258,13 +258,31 @@ Item {
             }
             Text{
                 anchors{
-                    verticalCenter: parent.verticalCenter
+                    // verticalCenter: parent.verticalCenter
+                    top: parent.top
+                    topMargin: Math.round(root.fontSize/4)
                     left: parent.left
                     leftMargin: Math.round(root.fontSize/2)
                 }
+                width: parent.width * 0.5
+                horizontalAlignment: Text.AlignRight
                 font.pixelSize: root.fontSize
                 color: "white"
                 text: setpoint.toFixed(1)  + "℃"
+            }
+            Text{
+                anchors{
+                    // verticalCenter: parent.verticalCenter
+                    bottom: parent.bottom
+                    bottomMargin: Math.round(root.fontSize/4)
+                    left: parent.left
+                    leftMargin: Math.round(root.fontSize/2)
+                }
+                width: parent.width * 0.5
+                horizontalAlignment: Text.AlignRight
+                font.pixelSize: root.fontSize
+                color: "white"
+                text: setpoint2.toFixed(1)  + "℃"
             }
             Item{
                 id: itemModeIcon

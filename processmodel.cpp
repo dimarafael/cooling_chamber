@@ -87,7 +87,7 @@ QHash<int, QByteArray> ProcessModel::roleNames() const
 
 void ProcessModel::dataReady(QVector<ProbeData> data)
 {
-    qDebug() << "Process model data ready";
+    // qDebug() << "Process model data ready";
     beginResetModel();
     for(int i = 0; i < 12; i++){
         m_processList[i].setT1(data[i].t1());
