@@ -711,12 +711,14 @@ Item{
                     id: mouseAreaEditOk
                     anchors.fill: parent
                     onClicked: {
-                        if(popUpAddEdit.isEdit) ProductsModel.set(popUpAddEdit.index, txtEditLine1.text, Number(txtEditLine2.text).toFixed(1), popUpAddEdit.mode, Number(txtEditLine2_2.text).toFixed(1));
-                        else{
-                            ProductsModel.append(txtEditLine1.text, Number(txtEditLine2.text).toFixed(1), popUpAddEdit.mode, Number(txtEditLine2_2.text).toFixed(1));
-                            listProducts.positionViewAtEnd();
+                        if( parseFloat(txtEditLine2_2.text)< parseFloat(txtEditLine2.text) ){
+                            if(popUpAddEdit.isEdit) ProductsModel.set(popUpAddEdit.index, txtEditLine1.text, Number(txtEditLine2.text).toFixed(1), popUpAddEdit.mode, Number(txtEditLine2_2.text).toFixed(1));
+                            else{
+                                ProductsModel.append(txtEditLine1.text, Number(txtEditLine2.text).toFixed(1), popUpAddEdit.mode, Number(txtEditLine2_2.text).toFixed(1));
+                                listProducts.positionViewAtEnd();
+                            }
+                            popUpAddEdit.visible = false
                         }
-                        popUpAddEdit.visible = false
                     }
                 }
             }
