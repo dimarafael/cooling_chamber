@@ -98,6 +98,7 @@ Item{
                 width: listProducts.width
                 required property string productName
                 required property real setpoint
+                required property real setpoint2
                 required property bool coolMode
                 required property int index
 
@@ -119,10 +120,22 @@ Item{
                     Text{
                         id:txtProductSetpoint
                         anchors.verticalCenter: parent.verticalCenter
-                        anchors.right: itemModeIcon.left
+                        anchors.right: txtProductSetpoint2.left
+                        anchors.rightMargin: root.fontSize
                         font.pixelSize: root.fontSize
+                        font.bold: true
                         color: root.textColor
                         text: delegate.setpoint.toFixed(1)  + "℃"
+                    }
+
+                    Text{
+                        id:txtProductSetpoint2
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: itemModeIcon.left
+                        font.pixelSize: root.fontSize
+                        font.bold: true
+                        color: "#ce253c" //root.textColor
+                        text: delegate.setpoint2.toFixed(1)  + "℃"
                     }
 
                     Item{
@@ -175,6 +188,7 @@ Item{
                                 console.log("Edit " + delegate.index)
                                 txtEditLine1.text = delegate.productName
                                 txtEditLine2.text = delegate.setpoint.toFixed(1)
+                                txtEditLine2_2.text = delegate.setpoint2.toFixed(1)
                                 popUpAddEdit.mode = delegate.coolMode
                                 popUpAddEdit.index = delegate.index
                                 popUpAddEdit.isEdit = true
@@ -292,6 +306,7 @@ Item{
                     onClicked: {
                         txtEditLine1.text = ""
                         txtEditLine2.text = -1
+                        txtEditLine2_2.text = -10
                         popUpAddEdit.mode = false
                         popUpAddEdit.index = 0
                         popUpAddEdit.isEdit = false
@@ -466,16 +481,26 @@ Item{
         }
         Item {
             id: popUpEditLine2
-            width: parent.width
+            width: txtEditLine1.width
             height: parent.height / 4
             anchors.top: popUpEditLine1.bottom
             anchors.horizontalCenter: parent.horizontalCenter
+
+            Text{
+                id:txtEditLine2_descr
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.leftMargin: root.fontSize / 4
+                font.pixelSize: root.fontSize
+                text: "Setpoint"
+            }
 
             TextField{
                 id: txtEditLine2
                 width: parent.width * 0.3
                 height: parent.height * 0.6
-                anchors.centerIn: parent
+                anchors.left: parent.left
+                anchors.top: txtEditLine2_descr.bottom
                 validator: DoubleValidator{bottom:-50; top: 10; decimals: 1;}
                 inputMethodHints: Qt.ImhNoTextHandles // | Qt.ImhDigitsOnly  // | hide selection handles
                 font.pixelSize: root.fontSize
@@ -499,9 +524,59 @@ Item{
                 }
             }
             Text{
+                id:txtEditLine2_units
                 anchors.left: txtEditLine2.right
                 anchors.verticalCenter: txtEditLine2.verticalCenter
                 anchors.leftMargin: root.fontSize / 4
+                font.pixelSize: root.fontSize
+                text: "℃"
+            }
+
+
+            Text{
+                id:txtEditLine2_2_descr
+                anchors.left: txtEditLine2_2.left
+                anchors.top: parent.top
+                anchors.leftMargin: root.fontSize / 4
+                font.pixelSize: root.fontSize
+                color: "#ce253c"
+                text: "Limit"
+            }
+
+            TextField{
+                id: txtEditLine2_2
+                width: parent.width * 0.3
+                height: parent.height * 0.6
+                anchors.top: txtEditLine2_2_descr.bottom
+                anchors.right: txtEditLine2_2_units.left
+                anchors.rightMargin: root.fontSize / 4
+                validator: DoubleValidator{bottom:-50; top: 10; decimals: 1;}
+                inputMethodHints: Qt.ImhNoTextHandles // | Qt.ImhDigitsOnly  // | hide selection handles
+                font.pixelSize: root.fontSize
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+
+                onAccepted: {
+                    console.log(text)
+                    focus = false
+                }
+
+                background: Rectangle {
+                    color: "#00FFFFFF"
+                    border.width: 2
+                    border.color: parent.activeFocus ? "#416f4c" : "lightgray"
+                    Behavior on border.color {
+                        ColorAnimation {
+                            duration: 250
+                        }
+                    }
+                }
+            }
+            Text{
+                id:txtEditLine2_2_units
+                anchors.right: parent.right
+                anchors.verticalCenter: txtEditLine2_2.verticalCenter
+                // anchors.leftMargin: root.fontSize / 4
                 font.pixelSize: root.fontSize
                 text: "℃"
             }
@@ -636,9 +711,9 @@ Item{
                     id: mouseAreaEditOk
                     anchors.fill: parent
                     onClicked: {
-                        if(popUpAddEdit.isEdit) ProductsModel.set(popUpAddEdit.index, txtEditLine1.text, Number(txtEditLine2.text).toFixed(1), popUpAddEdit.mode);
+                        if(popUpAddEdit.isEdit) ProductsModel.set(popUpAddEdit.index, txtEditLine1.text, Number(txtEditLine2.text).toFixed(1), popUpAddEdit.mode, Number(txtEditLine2_2.text).toFixed(1));
                         else{
-                            ProductsModel.append(txtEditLine1.text, Number(txtEditLine2.text).toFixed(1), popUpAddEdit.mode);
+                            ProductsModel.append(txtEditLine1.text, Number(txtEditLine2.text).toFixed(1), popUpAddEdit.mode, Number(txtEditLine2_2.text).toFixed(1));
                             listProducts.positionViewAtEnd();
                         }
                         popUpAddEdit.visible = false
