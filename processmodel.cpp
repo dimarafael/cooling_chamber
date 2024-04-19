@@ -46,6 +46,8 @@ QVariant ProcessModel::data(const QModelIndex &index, int role) const
             return processItem.t4();
         case SetpointRole:
             return processItem.setpoint();
+        case Setpoint2Role:
+            return processItem.setpoint2();
         case CoolModeRole:
             return processItem.coolMode();
         case StageRole:
@@ -73,6 +75,7 @@ QHash<int, QByteArray> ProcessModel::roleNames() const
     names[Temperature3Role] = "temperature3";
     names[Temperature4Role] = "temperature4";
     names[SetpointRole] = "setpoint";
+    names[Setpoint2Role] = "setpoint2";
     names[CoolModeRole] = "coolMode";
     names[StageRole] = "stage";
     names[TargetRole] = "target";
@@ -84,7 +87,7 @@ QHash<int, QByteArray> ProcessModel::roleNames() const
 
 void ProcessModel::dataReady(QVector<ProbeData> data)
 {
-    qInfo() << "Process model data ready";
+    qDebug() << "Process model data ready";
     beginResetModel();
     for(int i = 0; i < 12; i++){
         m_processList[i].setT1(data[i].t1());
@@ -173,11 +176,12 @@ void ProcessModel::stopProcess(int index)
     calculateTargets();
 }
 
-void ProcessModel::startProcess(int index, QString productName, float setpoint, bool coolMode, int target)
+void ProcessModel::startProcess(int index, QString productName, float setpoint, bool coolMode, int target, float setpoint2)
 {
     beginResetModel();
     m_processList[index].setProductName(productName);
     m_processList[index].setSetpoint(setpoint);
+    m_processList[index].setSetpoint2(setpoint2);
     m_processList[index].setCoolMode(coolMode);
     m_processList[index].setState(1);
     m_processList[index].setTarget(target);

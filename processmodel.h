@@ -5,7 +5,6 @@
 #include <QObject>
 #include "processitem.h"
 #include "probedata.h"
-#include "lamp.h"
 
 class ProcessModel : public QAbstractListModel
 {
@@ -26,7 +25,8 @@ public:
         TargetRole = Qt::UserRole + 8,
         ProductNameRole = Qt::UserRole + 9,
         DischargedRole = Qt::UserRole + 10,
-        OfflineRole = Qt::UserRole + 11
+        OfflineRole = Qt::UserRole + 11,
+        Setpoint2Role = Qt::UserRole + 12,
     };
     explicit ProcessModel(QObject *parent = nullptr);
 
@@ -39,7 +39,7 @@ public:
     void setGatewayOnline(bool newGatewayOnline);
 
     Q_INVOKABLE void stopProcess(int index);
-    Q_INVOKABLE void startProcess(int index, QString productName, float setpoint, bool coolMode, int target);
+    Q_INVOKABLE void startProcess(int index, QString productName, float setpoint, bool coolMode, int target, float setpoint2);
 
     int target1() const;
     void setTarget1(int newTarget1);

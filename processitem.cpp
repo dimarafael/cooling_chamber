@@ -123,3 +123,13 @@ void ProcessItem::setOffline(bool newOffline)
 {
     m_offline = newOffline;
 }
+
+float ProcessItem::setpoint2() const
+{
+    return m_setpoint2;
+}
+
+void ProcessItem::setSetpoint2(float newSetpoint2)
+{
+    m_setpoint2 = newSetpoint2;
+}
