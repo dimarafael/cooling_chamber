@@ -28,6 +28,8 @@ QVariant ProductsModel::data(const QModelIndex &index, int role) const
             return product.setpoint();
         case CoolModeRole:
             return product.coolMode();
+        case Setpoint2Role:
+            return product.setpoint2();
         default:
             return {};
         }
@@ -41,15 +43,17 @@ QHash<int, QByteArray> ProductsModel::roleNames() const
     names[ProductNameRole] = "productName";
     names[SetpointRole] = "setpoint";
     names[CoolModeRole] = "coolMode";
+    names[Setpoint2Role] = "setpoint2";
     return names;
 }
 
-void ProductsModel::append(QString name, float setpoint, bool mode)
+void ProductsModel::append(QString name, float setpoint, bool mode, float setpoint2)
 {
     Product product;
     product.setName(name);
     product.setSetpoint(setpoint);
     product.setCoolMode(mode);
+    product.setSetpoint2(setpoint2);
 
     beginInsertRows(QModelIndex(),m_productList.size(),m_productList.size());
     m_productList.append(product);
@@ -68,7 +72,7 @@ void ProductsModel::remove(int row)
     writeToSettings();
 }
 
-void ProductsModel::set(int row, QString name, float setpoint, bool mode)
+void ProductsModel::set(int row, QString name, float setpoint, bool mode, float setpoint2)
 {
     if(row < 0 || row >= m_productList.size())
         return;
@@ -77,6 +81,7 @@ void ProductsModel::set(int row, QString name, float setpoint, bool mode)
     product.setName(name);
     product.setSetpoint(setpoint);
     product.setCoolMode(mode);
+    product.setSetpoint2(setpoint2);
 
     m_productList.replace(row, product);
     emit dataChanged(index(row,0), index(row,0));
@@ -89,9 +94,10 @@ void ProductsModel::readFromSettings()
     for (int i = 0; i < size; ++i) {
         m_settings.setArrayIndex(i);
         Product product;
-        product.setName(m_settings.value("name").toString());
-        product.setSetpoint(m_settings.value("setpoint").toFloat());
+        product.setName(m_settings.value("name", "product").toString());
+        product.setSetpoint(m_settings.value("setpoint", 0).toFloat());
         product.setCoolMode(m_settings.value("mode").toBool());
+        product.setSetpoint2(m_settings.value("setpoint2", -10).toFloat());
         m_productList.append(product);
     }
     m_settings.endArray();
@@ -105,6 +111,7 @@ void ProductsModel::writeToSettings()
         m_settings.setValue("name", m_productList.at(i).name());
         m_settings.setValue("setpoint", m_productList.at(i).setpoint());
         m_settings.setValue("mode", m_productList.at(i).coolMode());
+        m_settings.setValue("setpoint2", m_productList.at(i).setpoint2());
     }
     m_settings.endArray();
 }

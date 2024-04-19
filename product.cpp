@@ -35,3 +35,13 @@ void Product::setCoolMode(bool newCoolMode)
 {
     m_coolMode = newCoolMode;
 }
+
+float Product::setpoint2() const
+{
+    return m_setpoint2;
+}
+
+void Product::setSetpoint2(float newSetpoint2)
+{
+    m_setpoint2 = newSetpoint2;
+}
