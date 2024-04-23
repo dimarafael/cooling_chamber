@@ -129,10 +129,11 @@ void ProcessModel::calculateProcess()
     for(int i = 0; i < m_processList.count(); i++){
         if (m_processList[i].state() == 1 && !m_processList[i].offline()){ // 0 - empty, 1 - cooling, 2 - ready
             if(m_processList[i].coolMode()){ // false - only one sensor, true - all sensers
-                if(m_processList[i].t1() <= m_processList[i].setpoint() &&
-                    m_processList[i].t2() <= m_processList[i].setpoint() &&
-                    m_processList[i].t3() <= m_processList[i].setpoint() &&
-                    m_processList[i].t4() <= m_processList[i].setpoint()){
+                if(//m_processList[i].t1() <= m_processList[i].setpoint() &&
+                    m_processList[i].t2() <= m_processList[i].setpoint() //&&
+                    //m_processList[i].t3() <= m_processList[i].setpoint() &&
+                    //m_processList[i].t4() <= m_processList[i].setpoint()
+                    ){
                     m_processList[i].setState(2);
                     emit lampStart();
                 }
