@@ -84,15 +84,52 @@ Rectangle{
                     }
                 }
 
-                Text {
-                    id: txtProductName
+                Item {
+                    id: itemTxtProductName
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: parent.height / 4
-                    font.pixelSize: root.fontSize
-                    font.bold: delegate.index === listProducts.indexSelected
-                    color: (delegate.index === listProducts.indexSelected)?"white":"black"
-                    text: delegate.productName
+                    anchors.rightMargin: parent.height / 4
+                    anchors.right: txtProductSetpoint.left
+                    height: parent.height
+                    clip: true
+
+                    Text {
+                        id: txtProductName
+                        anchors.verticalCenter: parent.verticalCenter
+                        height: parent.height
+                        verticalAlignment: Text.AlignVCenter
+                        font.pixelSize: root.fontSize
+                        // font.bold: delegate.index === listProducts.indexSelected
+                        color: (delegate.index === listProducts.indexSelected)?"white":"black"
+                        text: delegate.productName
+
+                        SequentialAnimation{
+                            id: animationName
+                            running: (root.visible === true) && (itemTxtProductName.width < txtProductName.width)
+                            loops: Animation.Infinite
+                            alwaysRunToEnd: true
+
+                            NumberAnimation{
+                                id: ani1
+                                target: txtProductName
+                                property: "x"
+                                from: 0
+                                to: itemTxtProductName.width - txtProductName.width
+                                duration: 2000
+                            }
+                            PauseAnimation { duration: 500 }
+                            NumberAnimation{
+                                id: ani2
+                                targets: txtProductName
+                                property: "x"
+                                from: itemTxtProductName.width - txtProductName.width
+                                to: 0
+                                duration: 2000
+                            }
+                            PauseAnimation { duration: 500 }
+                        }
+                    }
                 }
                 Text{
                     id:txtProductSetpoint

@@ -377,15 +377,6 @@ Item {
             }
             clip: true
 
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    console.log("text.width=" + textProductName.width)
-                    console.log("root.width=" + itemBottomLeft.width)
-                    console.log("shift=" + textProductName.shift)
-                }
-            }
-
             Text{
                 id: textProductName
                 anchors.verticalCenter: parent.verticalCenter
