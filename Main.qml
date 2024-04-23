@@ -274,6 +274,7 @@ Window {
             }
             onHidePanel: {
                 window.showSettings = false
+                itemSettings.unlocked = false
             }
         }
 
