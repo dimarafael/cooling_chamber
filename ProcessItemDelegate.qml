@@ -71,7 +71,7 @@ Item {
         anchors.bottom: rect1.bottom
         width: rect1.width * ( (setpoint - temperature4) / (setpoint - setpoint2) )
         clip: true
-        visible: (stage===2) && (temperature4 - setpoint)
+        visible: false //(stage===2) && (temperature4 - setpoint)
         color:"#00ffffff"
 
         Rectangle{
@@ -371,16 +371,66 @@ Item {
             anchors{
                 right: itemBottomRight.left
                 left: parent.left
+                leftMargin: root.fontSize / 4
                 top: parent.top
                 bottom:parent.bottom
             }
-            Text{
+            clip: true
+
+            MouseArea{
                 anchors.fill: parent
+                onClicked: {
+                    console.log("text.width=" + textProductName.width)
+                    console.log("root.width=" + itemBottomLeft.width)
+                    console.log("shift=" + textProductName.shift)
+                }
+            }
+
+            Text{
+                id: textProductName
+                anchors.verticalCenter: parent.verticalCenter
+                height: parent.height
                 font.pixelSize: root.fontSize
                 horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
+                // x:10
                 color: "white"
                 text: productName
+
+                Component.onCompleted: {
+                    if(itemBottomLeft.width < textProductName.width){
+
+                        ani1.to = itemBottomLeft.width - textProductName.width
+                        ani2.from = itemBottomLeft.width - textProductName.width
+                        animationName.running = true
+                    }
+                }
+
+                SequentialAnimation{
+                    id: animationName
+                    running: false
+                    // loops: Animation.Infinite
+                    alwaysRunToEnd: true
+
+                    NumberAnimation{
+                        id: ani1
+                        target: textProductName
+                        property: "x"
+                        from: 0
+                        to: itemBottomLeft.width - textProductName.width - 30
+                        duration: 2000
+                    }
+                    PauseAnimation { duration: 500 }
+                    NumberAnimation{
+                        id: ani2
+                        targets: textProductName
+                        property: "x"
+                        from: itemBottomLeft.width - textProductName.width - 30
+                        to: 0
+                        duration: 2000
+                    }
+                    // PauseAnimation { duration: 500 }
+                }
             }
         }
 
